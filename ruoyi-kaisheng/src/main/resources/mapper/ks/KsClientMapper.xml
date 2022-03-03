@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.kaisheng.mapper.KsClientMapper">
+    
+    <resultMap type="KsClient" id="KsClientResult">
+        <result property="id"    column="id"    />
+        <result property="clinetId"    column="clinet_id"    />
+        <result property="clinetName"    column="clinet_name"    />
+        <result property="clinetTel"    column="clinet_tel"    />
+        <result property="clinetPhone"    column="clinet_phone"    />
+        <result property="clinetHead"    column="clinet_head"    />
+        <result property="clinetAddress"    column="clinet_address"    />
+        <result property="clinetNote"    column="clinet_note"    />
+    </resultMap>
+
+    <sql id="selectKsClientVo">
+        select id, clinet_id, clinet_name, clinet_tel, clinet_phone, clinet_head, clinet_address, clinet_note from ks_client
+    </sql>
+
+    <select id="selectKsClientList" parameterType="KsClient" resultMap="KsClientResult">
+        <include refid="selectKsClientVo"/>
+        <where>  
+            <if test="clinetId != null  and clinetId != ''"> and clinet_id = #{clinetId}</if>
+            <if test="clinetName != null  and clinetName != ''"> and clinet_name like concat('%', #{clinetName}, '%')</if>
+            <if test="clinetTel != null  and clinetTel != ''"> and clinet_tel = #{clinetTel}</if>
+            <if test="clinetPhone != null  and clinetPhone != ''"> and clinet_phone = #{clinetPhone}</if>
+            <if test="clinetHead != null  and clinetHead != ''"> and clinet_head = #{clinetHead}</if>
+            <if test="clinetAddress != null  and clinetAddress != ''"> and clinet_address = #{clinetAddress}</if>
+            <if test="clinetNote != null  and clinetNote != ''"> and clinet_note = #{clinetNote}</if>
+        </where>
+    </select>
+    
+    <select id="selectKsClientById" parameterType="Integer" resultMap="KsClientResult">
+        <include refid="selectKsClientVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKsClient" parameterType="KsClient" useGeneratedKeys="true" keyProperty="id">
+        insert into ks_client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clinetId != null and clinetId != ''">clinet_id,</if>
+            <if test="clinetName != null">clinet_name,</if>
+            <if test="clinetTel != null">clinet_tel,</if>
+            <if test="clinetPhone != null">clinet_phone,</if>
+            <if test="clinetHead != null">clinet_head,</if>
+            <if test="clinetAddress != null">clinet_address,</if>
+            <if test="clinetNote != null">clinet_note,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clinetId != null and clinetId != ''">#{clinetId},</if>
+            <if test="clinetName != null">#{clinetName},</if>
+            <if test="clinetTel != null">#{clinetTel},</if>
+            <if test="clinetPhone != null">#{clinetPhone},</if>
+            <if test="clinetHead != null">#{clinetHead},</if>
+            <if test="clinetAddress != null">#{clinetAddress},</if>
+            <if test="clinetNote != null">#{clinetNote},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKsClient" parameterType="KsClient">
+        update ks_client
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clinetId != null and clinetId != ''">clinet_id = #{clinetId},</if>
+            <if test="clinetName != null">clinet_name = #{clinetName},</if>
+            <if test="clinetTel != null">clinet_tel = #{clinetTel},</if>
+            <if test="clinetPhone != null">clinet_phone = #{clinetPhone},</if>
+            <if test="clinetHead != null">clinet_head = #{clinetHead},</if>
+            <if test="clinetAddress != null">clinet_address = #{clinetAddress},</if>
+            <if test="clinetNote != null">clinet_note = #{clinetNote},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKsClientById" parameterType="Integer">
+        delete from ks_client where id = #{id}
+    </delete>
+
+    <delete id="deleteKsClientByIds" parameterType="String">
+        delete from ks_client where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
