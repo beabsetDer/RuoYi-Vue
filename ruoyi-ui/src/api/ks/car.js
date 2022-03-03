@@ -9,6 +9,15 @@ export function listCar(query) {
   })
 }
 
+// 查询車輛表單列表(用於下拉框)
+export function listCarid(query) {
+  return request({
+    url: '/ks/car/listCarid',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询車輛表單详细
 export function getCar(id) {
   return request({
