@@ -9,6 +9,14 @@ export function listClient(query) {
   })
 }
 
+export function listClientForSelector(query) {
+  return request({
+    url: '/ks/client/listClientForSelector',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询客戶公司表單详细
 export function getClient(id) {
   return request({

@@ -53,7 +53,7 @@ public class KsCarController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('ks:car:list')")
 	@GetMapping("/listCarid")
-	public List<KsCar> listUser(KsCar ksCar) {
+	public List<KsCar> listCar(KsCar ksCar) {
 		List<KsCar> list = ksCarService.selectKsCarList(ksCar);
 		return list;
 	}

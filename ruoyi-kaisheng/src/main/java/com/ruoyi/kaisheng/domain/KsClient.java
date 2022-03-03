@@ -15,36 +15,36 @@ public class KsClient extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 客戶公司流水號 */
+    /**  */
     private Integer id;
 
     /** 客戶公司編號 */
     @Excel(name = "客戶公司編號")
-    private String clinetId;
+    private String clientId;
 
     /** 客戶公司名稱 */
     @Excel(name = "客戶公司名稱")
-    private String clinetName;
+    private String clientName;
 
     /** 客戶公司電話 */
     @Excel(name = "客戶公司電話")
-    private String clinetTel;
+    private String clientTel;
 
     /** 客戶公司手機 */
     @Excel(name = "客戶公司手機")
-    private String clinetPhone;
+    private String clientPhone;
 
     /** 客戶公司負責人 */
     @Excel(name = "客戶公司負責人")
-    private String clinetHead;
+    private String clientHead;
 
     /** 客戶公司地址 */
     @Excel(name = "客戶公司地址")
-    private String clinetAddress;
+    private String clientAddress;
 
     /** 客戶公司備註 */
     @Excel(name = "客戶公司備註")
-    private String clinetNote;
+    private String clientNote;
 
     public void setId(Integer id) 
     {
@@ -55,81 +55,81 @@ public class KsClient extends BaseEntity
     {
         return id;
     }
-    public void setClinetId(String clinetId) 
+    public void setClientId(String clientId) 
     {
-        this.clinetId = clinetId;
+        this.clientId = clientId;
     }
 
-    public String getClinetId() 
+    public String getClientId() 
     {
-        return clinetId;
+        return clientId;
     }
-    public void setClinetName(String clinetName) 
+    public void setClientName(String clientName) 
     {
-        this.clinetName = clinetName;
-    }
-
-    public String getClinetName() 
-    {
-        return clinetName;
-    }
-    public void setClinetTel(String clinetTel) 
-    {
-        this.clinetTel = clinetTel;
+        this.clientName = clientName;
     }
 
-    public String getClinetTel() 
+    public String getClientName() 
     {
-        return clinetTel;
+        return clientName;
     }
-    public void setClinetPhone(String clinetPhone) 
+    public void setClientTel(String clientTel) 
     {
-        this.clinetPhone = clinetPhone;
-    }
-
-    public String getClinetPhone() 
-    {
-        return clinetPhone;
-    }
-    public void setClinetHead(String clinetHead) 
-    {
-        this.clinetHead = clinetHead;
+        this.clientTel = clientTel;
     }
 
-    public String getClinetHead() 
+    public String getClientTel() 
     {
-        return clinetHead;
+        return clientTel;
     }
-    public void setClinetAddress(String clinetAddress) 
+    public void setClientPhone(String clientPhone) 
     {
-        this.clinetAddress = clinetAddress;
-    }
-
-    public String getClinetAddress() 
-    {
-        return clinetAddress;
-    }
-    public void setClinetNote(String clinetNote) 
-    {
-        this.clinetNote = clinetNote;
+        this.clientPhone = clientPhone;
     }
 
-    public String getClinetNote() 
+    public String getClientPhone() 
     {
-        return clinetNote;
+        return clientPhone;
+    }
+    public void setClientHead(String clientHead) 
+    {
+        this.clientHead = clientHead;
+    }
+
+    public String getClientHead() 
+    {
+        return clientHead;
+    }
+    public void setClientAddress(String clientAddress) 
+    {
+        this.clientAddress = clientAddress;
+    }
+
+    public String getClientAddress() 
+    {
+        return clientAddress;
+    }
+    public void setClientNote(String clientNote) 
+    {
+        this.clientNote = clientNote;
+    }
+
+    public String getClientNote() 
+    {
+        return clientNote;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("clinetId", getClinetId())
-            .append("clinetName", getClinetName())
-            .append("clinetTel", getClinetTel())
-            .append("clinetPhone", getClinetPhone())
-            .append("clinetHead", getClinetHead())
-            .append("clinetAddress", getClinetAddress())
-            .append("clinetNote", getClinetNote())
+            .append("clientId", getClientId())
+            .append("clientName", getClientName())
+            .append("clientTel", getClientTel())
+            .append("clientPhone", getClientPhone())
+            .append("clientHead", getClientHead())
+            .append("clientAddress", getClientAddress())
+            .append("clientNote", getClientNote())
             .toString();
     }
 }

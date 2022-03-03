@@ -1,63 +1,63 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="客戶公司編號" prop="clinetId">
+      <el-form-item label="客戶公司編號" prop="clientId">
         <el-input
-          v-model="queryParams.clinetId"
+          v-model="queryParams.clientId"
           placeholder="请输入客戶公司編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司名稱" prop="clinetName">
+      <el-form-item label="客戶公司名稱" prop="clientName">
         <el-input
-          v-model="queryParams.clinetName"
+          v-model="queryParams.clientName"
           placeholder="请输入客戶公司名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司電話" prop="clinetTel">
+      <el-form-item label="客戶公司電話" prop="clientTel">
         <el-input
-          v-model="queryParams.clinetTel"
+          v-model="queryParams.clientTel"
           placeholder="请输入客戶公司電話"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司手機" prop="clinetPhone">
+      <el-form-item label="客戶公司手機" prop="clientPhone">
         <el-input
-          v-model="queryParams.clinetPhone"
+          v-model="queryParams.clientPhone"
           placeholder="请输入客戶公司手機"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司負責人" prop="clinetHead">
+      <el-form-item label="客戶公司負責人" prop="clientHead">
         <el-input
-          v-model="queryParams.clinetHead"
+          v-model="queryParams.clientHead"
           placeholder="请输入客戶公司負責人"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司地址" prop="clinetAddress">
+      <el-form-item label="客戶公司地址" prop="clientAddress">
         <el-input
-          v-model="queryParams.clinetAddress"
+          v-model="queryParams.clientAddress"
           placeholder="请输入客戶公司地址"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客戶公司備註" prop="clinetNote">
+      <el-form-item label="客戶公司備註" prop="clientNote">
         <el-input
-          v-model="queryParams.clinetNote"
+          v-model="queryParams.clientNote"
           placeholder="请输入客戶公司備註"
           clearable
           size="small"
@@ -118,14 +118,14 @@
 
     <el-table v-loading="loading" :data="clientList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="客戶公司流水號" align="center" prop="id" />
-      <el-table-column label="客戶公司編號" align="center" prop="clinetId" />
-      <el-table-column label="客戶公司名稱" align="center" prop="clinetName" />
-      <el-table-column label="客戶公司電話" align="center" prop="clinetTel" />
-      <el-table-column label="客戶公司手機" align="center" prop="clinetPhone" />
-      <el-table-column label="客戶公司負責人" align="center" prop="clinetHead" />
-      <el-table-column label="客戶公司地址" align="center" prop="clinetAddress" />
-      <el-table-column label="客戶公司備註" align="center" prop="clinetNote" />
+      <el-table-column label="" align="center" prop="id" />
+      <el-table-column label="客戶公司編號" align="center" prop="clientId" />
+      <el-table-column label="客戶公司名稱" align="center" prop="clientName" />
+      <el-table-column label="客戶公司電話" align="center" prop="clientTel" />
+      <el-table-column label="客戶公司手機" align="center" prop="clientPhone" />
+      <el-table-column label="客戶公司負責人" align="center" prop="clientHead" />
+      <el-table-column label="客戶公司地址" align="center" prop="clientAddress" />
+      <el-table-column label="客戶公司備註" align="center" prop="clientNote" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -157,26 +157,26 @@
     <!-- 添加或修改客戶公司表單对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="客戶公司編號" prop="clinetId">
-          <el-input v-model="form.clinetId" placeholder="请输入客戶公司編號" />
+        <el-form-item label="客戶公司編號" prop="clientId">
+          <el-input v-model="form.clientId" placeholder="请输入客戶公司編號" />
         </el-form-item>
-        <el-form-item label="客戶公司名稱" prop="clinetName">
-          <el-input v-model="form.clinetName" placeholder="请输入客戶公司名稱" />
+        <el-form-item label="客戶公司名稱" prop="clientName">
+          <el-input v-model="form.clientName" placeholder="请输入客戶公司名稱" />
         </el-form-item>
-        <el-form-item label="客戶公司電話" prop="clinetTel">
-          <el-input v-model="form.clinetTel" placeholder="请输入客戶公司電話" />
+        <el-form-item label="客戶公司電話" prop="clientTel">
+          <el-input v-model="form.clientTel" placeholder="请输入客戶公司電話" />
         </el-form-item>
-        <el-form-item label="客戶公司手機" prop="clinetPhone">
-          <el-input v-model="form.clinetPhone" placeholder="请输入客戶公司手機" />
+        <el-form-item label="客戶公司手機" prop="clientPhone">
+          <el-input v-model="form.clientPhone" placeholder="请输入客戶公司手機" />
         </el-form-item>
-        <el-form-item label="客戶公司負責人" prop="clinetHead">
-          <el-input v-model="form.clinetHead" placeholder="请输入客戶公司負責人" />
+        <el-form-item label="客戶公司負責人" prop="clientHead">
+          <el-input v-model="form.clientHead" placeholder="请输入客戶公司負責人" />
         </el-form-item>
-        <el-form-item label="客戶公司地址" prop="clinetAddress">
-          <el-input v-model="form.clinetAddress" placeholder="请输入客戶公司地址" />
+        <el-form-item label="客戶公司地址" prop="clientAddress">
+          <el-input v-model="form.clientAddress" placeholder="请输入客戶公司地址" />
         </el-form-item>
-        <el-form-item label="客戶公司備註" prop="clinetNote">
-          <el-input v-model="form.clinetNote" placeholder="请输入客戶公司備註" />
+        <el-form-item label="客戶公司備註" prop="clientNote">
+          <el-input v-model="form.clientNote" placeholder="请输入客戶公司備註" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,19 +216,19 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        clinetId: null,
-        clinetName: null,
-        clinetTel: null,
-        clinetPhone: null,
-        clinetHead: null,
-        clinetAddress: null,
-        clinetNote: null
+        clientId: null,
+        clientName: null,
+        clientTel: null,
+        clientPhone: null,
+        clientHead: null,
+        clientAddress: null,
+        clientNote: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        clinetId: [
+        clientId: [
           { required: true, message: "客戶公司編號不能为空", trigger: "blur" }
         ],
       }
@@ -256,13 +256,13 @@ export default {
     reset() {
       this.form = {
         id: null,
-        clinetId: null,
-        clinetName: null,
-        clinetTel: null,
-        clinetPhone: null,
-        clinetHead: null,
-        clinetAddress: null,
-        clinetNote: null
+        clientId: null,
+        clientName: null,
+        clientTel: null,
+        clientPhone: null,
+        clientHead: null,
+        clientAddress: null,
+        clientNote: null
       };
       this.resetForm("form");
     },
