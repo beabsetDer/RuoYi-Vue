@@ -9,6 +9,15 @@ export function listEmployee(query) {
   })
 }
 
+// 查询員工表單列表(用於下拉框)
+export function listUser(query) {
+  return request({
+    url: '/ks/employee/listUser',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询員工表單详细
 export function getEmployee(id) {
   return request({
