@@ -187,8 +187,8 @@
       <el-table-column label="員工姓名" align="center" prop="name" />
 
       <el-table-column label="綽號" align="center" prop="aka" />
-      <el-table-column label="手機" align="center" prop="phoneNumber" />
-      <el-table-column label="身分證" align="center" prop="idCard" />
+      <el-table-column label="手機" align="center" prop="phoneNumber" width="110" />
+      <el-table-column label="身分證" align="center" prop="idCard" width="110" />
 
       <el-table-column label="姓別" align="center" prop="sex">
         <template slot-scope="scope">
@@ -196,16 +196,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="家電" align="center" prop="homeTelephoneNumber" />
-      <el-table-column label="住址" align="center" prop="address" />
-      <el-table-column label="隸屬公司" align="center" prop="company" />
+      <el-table-column label="家電" align="center" prop="homeTelephoneNumber" width="110" />
+      <el-table-column label="住址" align="center" prop="address" width="200" />
+      <el-table-column label="隸屬公司" align="center" prop="company" width="150" />
       <el-table-column label="職稱" align="center" prop="staffPositions" />
-      <el-table-column label="入職日期" align="center" prop="entryDate" width="180">
+      <el-table-column label="入職日期" align="center" prop="entryDate" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.entryDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="離職日期" align="center" prop="resignationDate" width="180">
+      <el-table-column label="離職日期" align="center" prop="resignationDate" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.resignationDate, '{y}-{m}-{d}') }}</span>
         </template>

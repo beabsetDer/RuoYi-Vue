@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      :inline="true"
+      v-show="showSearch"
+      label-width="100px"
+    >
       <el-form-item label="北上單編號" prop="gonorthId">
         <el-input
           v-model="queryParams.gonorthId"
@@ -11,12 +17,26 @@
         />
       </el-form-item>
       <el-form-item label="日期(北上單)" prop="gonorthDate">
-        <el-date-picker clearable size="small"
+        <el-date-picker
+          clearable
+          size="small"
           v-model="queryParams.gonorthDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择日期(北上單)">
-        </el-date-picker>
+          placeholder="选择日期(北上單)"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="司機名稱" prop="gonorthDriver">
         <el-input
@@ -63,14 +83,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="gonorthCash">
-        <el-input
-          v-model="queryParams.gonorthCash"
-          placeholder="请输入${comment}"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="現金" prop="gonorthCash">
+        <el-select v-model="queryParams.gonorthCash" placeholder="请选择現金" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.ks_cash"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="貨物名稱" prop="gonorthGoods">
         <el-input
@@ -99,10 +120,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="gonorthGoodsPriceDriver">
+      <el-form-item label="司機單價" prop="gonorthGoodsPriceDriver">
         <el-input
           v-model="queryParams.gonorthGoodsPriceDriver"
-          placeholder="请输入${comment}"
+          placeholder="请输入司機單價"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -201,11 +222,15 @@
       <el-table-column label="公司名稱" align="center" prop="gonorthCompany" />
       <el-table-column label="起點" align="center" prop="gonorthOutset" />
       <el-table-column label="堆場" align="center" prop="gonorthYard" />
-      <el-table-column label="${comment}" align="center" prop="gonorthCash" />
+      <el-table-column label="現金" align="center" prop="gonorthCash">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.ks_cash" :value="scope.row.gonorthCash" />
+        </template>
+      </el-table-column>
       <el-table-column label="貨物名稱" align="center" prop="gonorthGoods" />
       <el-table-column label="貨物噸數" align="center" prop="gonorthGoodsMt" />
       <el-table-column label="公司單價" align="center" prop="gonorthGoodsPriceCompany" />
-      <el-table-column label="${comment}" align="center" prop="gonorthGoodsPriceDriver" />
+      <el-table-column label="司機單價" align="center" prop="gonorthGoodsPriceDriver" />
       <el-table-column label="公司此趟運費" align="center" prop="gonorthTotal" />
       <el-table-column label="扣發票金額" align="center" prop="gonorthBillTotal" />
       <el-table-column label="此趟薪資" align="center" prop="gonorthDriverPay" />
@@ -228,7 +253,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -238,18 +263,20 @@
     />
 
     <!-- 添加或修改北上表單对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="北上單編號" prop="gonorthId">
           <el-input v-model="form.gonorthId" placeholder="请输入北上單編號" />
         </el-form-item>
         <el-form-item label="日期(北上單)" prop="gonorthDate">
-          <el-date-picker clearable size="small"
+          <el-date-picker
+            clearable
+            size="small"
             v-model="form.gonorthDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择日期(北上單)">
-          </el-date-picker>
+            placeholder="选择日期(北上單)"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="司機名稱" prop="gonorthDriver">
           <el-input v-model="form.gonorthDriver" placeholder="请输入司機名稱" />
@@ -266,8 +293,15 @@
         <el-form-item label="堆場" prop="gonorthYard">
           <el-input v-model="form.gonorthYard" placeholder="请输入堆場" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="gonorthCash">
-          <el-input v-model="form.gonorthCash" placeholder="请输入${comment}" />
+        <el-form-item label="現金" prop="gonorthCash">
+          <el-select v-model="form.gonorthCash" placeholder="请选择現金">
+            <el-option
+              v-for="dict in dict.type.ks_cash"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="貨物名稱" prop="gonorthGoods">
           <el-input v-model="form.gonorthGoods" placeholder="请输入貨物名稱" />
@@ -278,8 +312,8 @@
         <el-form-item label="公司單價" prop="gonorthGoodsPriceCompany">
           <el-input v-model="form.gonorthGoodsPriceCompany" placeholder="请输入公司單價" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="gonorthGoodsPriceDriver">
-          <el-input v-model="form.gonorthGoodsPriceDriver" placeholder="请输入${comment}" />
+        <el-form-item label="司機單價" prop="gonorthGoodsPriceDriver">
+          <el-input v-model="form.gonorthGoodsPriceDriver" placeholder="请输入司機單價" />
         </el-form-item>
         <el-form-item label="公司此趟運費" prop="gonorthTotal">
           <el-input v-model="form.gonorthTotal" placeholder="请输入公司此趟運費" />
@@ -300,10 +334,17 @@
 </template>
 
 <script>
-import { listGonorth, getGonorth, delGonorth, addGonorth, updateGonorth } from "@/api/ks/gonorth";
+import {
+  listGonorth,
+  getGonorth,
+  delGonorth,
+  addGonorth,
+  updateGonorth
+} from "@/api/ks/gonorth";
 
 export default {
   name: "Gonorth",
+  dicts: ["ks_cash"],
   data() {
     return {
       // 遮罩层
@@ -324,6 +365,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -369,6 +411,9 @@ export default {
         gonorthYard: [
           { required: true, message: "堆場不能为空", trigger: "blur" }
         ],
+        gonorthCash: [
+          { required: true, message: "現金不能为空", trigger: "change" }
+        ],
         gonorthGoodsMt: [
           { required: true, message: "貨物噸數不能为空", trigger: "blur" }
         ],
@@ -394,11 +439,13 @@ export default {
     /** 查询北上表單列表 */
     getList() {
       this.loading = true;
-      listGonorth(this.queryParams).then(response => {
-        this.gonorthList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+      listGonorth(this.addDateRange(this.queryParams, this.dateRange)).then(
+        response => {
+          this.gonorthList = response.rows;
+          this.total = response.total;
+          this.loading = false;
+        }
+      );
     },
     // 取消按钮
     cancel() {
@@ -434,14 +481,15 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
+      this.ids = selection.map(item => item.id);
+      this.single = selection.length !== 1;
+      this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -452,7 +500,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const id = row.id || this.ids
+      const id = row.id || this.ids;
       getGonorth(id).then(response => {
         this.form = response.data;
         this.open = true;
@@ -482,18 +530,26 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除北上表單编号为"' + ids + '"的数据项？').then(function() {
-        return delGonorth(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.$modal
+        .confirm('是否确认删除北上表單编号为"' + ids + '"的数据项？')
+        .then(function() {
+          return delGonorth(ids);
+        })
+        .then(() => {
+          this.getList();
+          this.$modal.msgSuccess("删除成功");
+        })
+        .catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('ks/gonorth/export', {
-        ...this.queryParams
-      }, `gonorth_${new Date().getTime()}.xlsx`)
+      this.download(
+        "ks/gonorth/export",
+        {
+          ...this.queryParams
+        },
+        `gonorth_${new Date().getTime()}.xlsx`
+      );
     }
   }
 };

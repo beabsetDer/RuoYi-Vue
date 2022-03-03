@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="南下單編號" prop="downboundId">
         <el-input
           v-model="queryParams.downboundId"
@@ -11,12 +17,27 @@
         />
       </el-form-item>
       <el-form-item label="日期(南下單)" prop="downboundDate">
-        <el-date-picker clearable size="small"
+        <el-date-picker
+          clearable
+          size="small"
           v-model="queryParams.downboundDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择日期(南下單)">
-        </el-date-picker>
+          placeholder="选择日期(南下單)"
+        ></el-date-picker>
+      </el-form-item>
+
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="司機名稱" prop="downboundDriver">
         <el-input
@@ -63,14 +84,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="downboundCash">
-        <el-input
-          v-model="queryParams.downboundCash"
-          placeholder="请输入${comment}"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="現金" prop="downboundCash">
+        <el-select v-model="queryParams.downboundCash" placeholder="请选择現金" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.ks_cash"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="貨物名稱" prop="downboundGoods">
         <el-input
@@ -183,7 +205,11 @@
       <el-table-column label="公司名稱" align="center" prop="downboundCompany" />
       <el-table-column label="起點" align="center" prop="downboundOutset" />
       <el-table-column label="堆場" align="center" prop="downboundYard" />
-      <el-table-column label="${comment}" align="center" prop="downboundCash" />
+      <el-table-column label="現金" align="center" prop="downboundCash">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.ks_cash" :value="scope.row.downboundCash" />
+        </template>
+      </el-table-column>
       <el-table-column label="貨物名稱" align="center" prop="downboundGoods" />
       <el-table-column label="貨物噸數" align="center" prop="downboundGoodsMt" />
       <el-table-column label="貨物單價" align="center" prop="downboundGoodsPrice" />
@@ -208,7 +234,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -224,12 +250,14 @@
           <el-input v-model="form.downboundId" placeholder="请输入南下單編號" />
         </el-form-item>
         <el-form-item label="日期(南下單)" prop="downboundDate">
-          <el-date-picker clearable size="small"
+          <el-date-picker
+            clearable
+            size="small"
             v-model="form.downboundDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择日期(南下單)">
-          </el-date-picker>
+            placeholder="选择日期(南下單)"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="司機名稱" prop="downboundDriver">
           <el-input v-model="form.downboundDriver" placeholder="请输入司機名稱" />
@@ -246,8 +274,15 @@
         <el-form-item label="堆場" prop="downboundYard">
           <el-input v-model="form.downboundYard" placeholder="请输入堆場" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="downboundCash">
-          <el-input v-model="form.downboundCash" placeholder="请输入${comment}" />
+        <el-form-item label="現金" prop="downboundCash">
+          <el-select v-model="form.downboundCash" placeholder="请选择現金">
+            <el-option
+              v-for="dict in dict.type.ks_cash"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="貨物名稱" prop="downboundGoods">
           <el-input v-model="form.downboundGoods" placeholder="请输入貨物名稱" />
@@ -274,10 +309,17 @@
 </template>
 
 <script>
-import { listDownbound, getDownbound, delDownbound, addDownbound, updateDownbound } from "@/api/ks/downbound";
+import {
+  listDownbound,
+  getDownbound,
+  delDownbound,
+  addDownbound,
+  updateDownbound
+} from "@/api/ks/downbound";
 
 export default {
   name: "Downbound",
+  dicts: ["ks_cash"],
   data() {
     return {
       // 遮罩层
@@ -294,6 +336,7 @@ export default {
       total: 0,
       // 南下表單表格数据
       downboundList: [],
+      dateRange: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -341,6 +384,9 @@ export default {
         downboundYard: [
           { required: true, message: "堆場不能为空", trigger: "blur" }
         ],
+        downboundCash: [
+          { required: true, message: "現金不能为空", trigger: "change" }
+        ],
         downboundGoodsMt: [
           { required: true, message: "貨物噸數不能为空", trigger: "blur" }
         ],
@@ -363,11 +409,13 @@ export default {
     /** 查询南下表單列表 */
     getList() {
       this.loading = true;
-      listDownbound(this.queryParams).then(response => {
-        this.downboundList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+      listDownbound(this.addDateRange(this.queryParams, this.dateRange)).then(
+        response => {
+          this.downboundList = response.rows;
+          this.total = response.total;
+          this.loading = false;
+        }
+      );
     },
     // 取消按钮
     cancel() {
@@ -401,14 +449,15 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
+      this.ids = selection.map(item => item.id);
+      this.single = selection.length !== 1;
+      this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -419,7 +468,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const id = row.id || this.ids
+      const id = row.id || this.ids;
       getDownbound(id).then(response => {
         this.form = response.data;
         this.open = true;
@@ -449,18 +498,26 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除南下表單编号为"' + ids + '"的数据项？').then(function() {
-        return delDownbound(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.$modal
+        .confirm('是否确认删除南下表單编号为"' + ids + '"的数据项？')
+        .then(function() {
+          return delDownbound(ids);
+        })
+        .then(() => {
+          this.getList();
+          this.$modal.msgSuccess("删除成功");
+        })
+        .catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('ks/downbound/export', {
-        ...this.queryParams
-      }, `downbound_${new Date().getTime()}.xlsx`)
+      this.download(
+        "ks/downbound/export",
+        {
+          ...this.queryParams
+        },
+        `downbound_${new Date().getTime()}.xlsx`
+      );
     }
   }
 };
