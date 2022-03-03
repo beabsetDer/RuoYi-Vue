@@ -17,6 +17,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.kaisheng.domain.KsCar;
+import com.ruoyi.kaisheng.domain.KsEmployee;
 import com.ruoyi.kaisheng.service.IKsCarService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -29,76 +30,82 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/ks/car")
-public class KsCarController extends BaseController
-{
-    @Autowired
-    private IKsCarService ksCarService;
+public class KsCarController extends BaseController {
+	@Autowired
+	private IKsCarService ksCarService;
 
-    /**
-     * 查询車輛表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(KsCar ksCar)
-    {
-        startPage();
-        List<KsCar> list = ksCarService.selectKsCarList(ksCar);
-        return getDataTable(list);
-    }
+	/**
+	 * 查询車輛表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:list')")
+	@GetMapping("/list")
+	public TableDataInfo list(KsCar ksCar) {
+		startPage();
+		List<KsCar> list = ksCarService.selectKsCarList(ksCar);
+		return getDataTable(list);
+	}
 
-    /**
-     * 导出車輛表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:export')")
-    @Log(title = "車輛表單", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, KsCar ksCar)
-    {
-        List<KsCar> list = ksCarService.selectKsCarList(ksCar);
-        ExcelUtil<KsCar> util = new ExcelUtil<KsCar>(KsCar.class);
-        util.exportExcel(response, list, "車輛表單数据");
-    }
+	/**
+	 * 查询車輛表單列表(用於下拉框)
+	 * 
+	 * @param ksCar
+	 * @return
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:list')")
+	@GetMapping("/listCarid")
+	public List<KsCar> listUser(KsCar ksCar) {
+		List<KsCar> list = ksCarService.selectKsCarList(ksCar);
+		return list;
+	}
 
-    /**
-     * 获取車輛表單详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(ksCarService.selectKsCarById(id));
-    }
+	/**
+	 * 导出車輛表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:export')")
+	@Log(title = "車輛表單", businessType = BusinessType.EXPORT)
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, KsCar ksCar) {
+		List<KsCar> list = ksCarService.selectKsCarList(ksCar);
+		ExcelUtil<KsCar> util = new ExcelUtil<KsCar>(KsCar.class);
+		util.exportExcel(response, list, "車輛表單数据");
+	}
 
-    /**
-     * 新增車輛表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:add')")
-    @Log(title = "車輛表單", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody KsCar ksCar)
-    {
-        return toAjax(ksCarService.insertKsCar(ksCar));
-    }
+	/**
+	 * 获取車輛表單详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:query')")
+	@GetMapping(value = "/{id}")
+	public AjaxResult getInfo(@PathVariable("id") Integer id) {
+		return AjaxResult.success(ksCarService.selectKsCarById(id));
+	}
 
-    /**
-     * 修改車輛表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:edit')")
-    @Log(title = "車輛表單", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody KsCar ksCar)
-    {
-        return toAjax(ksCarService.updateKsCar(ksCar));
-    }
+	/**
+	 * 新增車輛表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:add')")
+	@Log(title = "車輛表單", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody KsCar ksCar) {
+		return toAjax(ksCarService.insertKsCar(ksCar));
+	}
 
-    /**
-     * 删除車輛表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:car:remove')")
-    @Log(title = "車輛表單", businessType = BusinessType.DELETE)
+	/**
+	 * 修改車輛表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:edit')")
+	@Log(title = "車輛表單", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody KsCar ksCar) {
+		return toAjax(ksCarService.updateKsCar(ksCar));
+	}
+
+	/**
+	 * 删除車輛表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:car:remove')")
+	@Log(title = "車輛表單", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(ksCarService.deleteKsCarByIds(ids));
-    }
+	public AjaxResult remove(@PathVariable Integer[] ids) {
+		return toAjax(ksCarService.deleteKsCarByIds(ids));
+	}
 }

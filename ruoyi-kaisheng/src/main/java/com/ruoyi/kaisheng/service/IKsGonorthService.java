@@ -7,7 +7,7 @@ import com.ruoyi.kaisheng.domain.KsGonorth;
  * 北上表單Service接口
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 public interface IKsGonorthService 
 {

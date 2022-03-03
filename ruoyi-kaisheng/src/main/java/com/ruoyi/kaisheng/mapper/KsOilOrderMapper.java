@@ -7,7 +7,7 @@ import com.ruoyi.kaisheng.domain.KsOilOrder;
  * 加油表單Mapper接口
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 public interface KsOilOrderMapper 
 {

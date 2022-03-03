@@ -12,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 加油表單对象 ks_oil_order
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 public class KsOilOrder extends BaseEntity
 {

@@ -12,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 北上表單对象 ks_gonorth
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 public class KsGonorth extends BaseEntity
 {
@@ -50,8 +50,8 @@ public class KsGonorth extends BaseEntity
     @Excel(name = "堆場")
     private String gonorthYard;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 現金 */
+    @Excel(name = "現金")
     private String gonorthCash;
 
     /** 貨物名稱 */
@@ -66,8 +66,8 @@ public class KsGonorth extends BaseEntity
     @Excel(name = "公司單價")
     private BigDecimal gonorthGoodsPriceCompany;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 司機單價 */
+    @Excel(name = "司機單價")
     private BigDecimal gonorthGoodsPriceDriver;
 
     /** 公司此趟運費 */

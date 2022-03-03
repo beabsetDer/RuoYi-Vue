@@ -12,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 南下表單对象 ks_downbound
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 public class KsDownbound extends BaseEntity
 {
@@ -50,8 +50,8 @@ public class KsDownbound extends BaseEntity
     @Excel(name = "堆場")
     private String downboundYard;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 現金 */
+    @Excel(name = "現金")
     private String downboundCash;
 
     /** 貨物名稱 */

@@ -11,7 +11,7 @@ import com.ruoyi.kaisheng.service.IKsGonorthService;
  * 北上表單Service业务层处理
  * 
  * @author Sheng
- * @date 2022-02-20
+ * @date 2022-02-22
  */
 @Service
 public class KsGonorthServiceImpl implements IKsGonorthService 
