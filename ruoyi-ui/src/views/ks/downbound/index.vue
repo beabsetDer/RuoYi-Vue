@@ -5,7 +5,7 @@
       ref="queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="100px"
     >
       <el-form-item label="南下單編號" prop="downboundId">
         <el-input
@@ -27,7 +27,7 @@
         ></el-date-picker>
       </el-form-item>
 
-      <el-form-item label="时间">
+      <el-form-item label="時間範圍">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -35,8 +35,8 @@
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="開始日期"
+          end-placeholder="結束日期"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="司機名稱" prop="downboundDriver">
@@ -244,12 +244,21 @@
     />
 
     <!-- 添加或修改南下表單对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="南下單編號" prop="downboundId">
-          <el-input v-model="form.downboundId" placeholder="请输入南下單編號" />
+          <el-input
+            v-model="form.downboundId"
+            style="width:220px"
+            maxlength="8"
+            placeholder="南下單編號"
+            @input="keyInCheckOrderId(form.downboundId)"
+          >
+            <!-- 指定前墜 -->
+            <template slot="prepend">south -</template>
+          </el-input>
         </el-form-item>
-        <el-form-item label="日期(南下單)" prop="downboundDate">
+        <el-form-item label="日期(南下)" prop="downboundDate">
           <el-date-picker
             clearable
             size="small"
@@ -260,13 +269,39 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="司機名稱" prop="downboundDriver">
-          <el-input v-model="form.downboundDriver" placeholder="请输入司機名稱" />
+          <!-- <el-input v-model="form.downboundDriver" placeholder="请输入司機名稱" /> -->
+
+          <el-select clearable v-model="form.downboundDriver" placeholder="請選擇機司名稱">
+            <el-option
+              v-for="item in userList"
+              :key="item.employeeId"
+              :label="item.employeeId +' '+ item.name"
+              :value="item.name"
+            >{{item.employeeId}} {{item.name}}</el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="車牌號碼" prop="downboundLicensePlateNumber">
-          <el-input v-model="form.downboundLicensePlateNumber" placeholder="请输入車牌號碼" />
+          <!-- <el-input v-model="form.downboundLicensePlateNumber" placeholder="请输入車牌號碼" /> -->
+
+          <el-select clearable v-model="form.downboundLicensePlateNumber" placeholder="請選擇車牌">
+            <el-option
+              v-for="car in carList"
+              :key="car.licensePlateNumber"
+              :value="car.licensePlateNumber"
+            >{{car.licensePlateNumber}}</el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="公司名稱" prop="downboundCompany">
-          <el-input v-model="form.downboundCompany" placeholder="请输入公司名稱" />
+          <!--   <el-input v-model="form.downboundCompany" placeholder="請輸入公司名稱" /> -->
+
+          <el-select clearable v-model="form.downboundCompany" placeholder="請選擇公司名稱">
+            <el-option
+              v-for="client in clientList"
+              :key="client.clientId"
+              :value="client.clientId"
+              :label="client.clientId +' '+ client.clientName"
+            >{{client.clientId}} {{client.clientName}}</el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="起點" prop="downboundOutset">
           <el-input v-model="form.downboundOutset" placeholder="请输入起點" />
@@ -285,13 +320,22 @@
           </el-select>
         </el-form-item>
         <el-form-item label="貨物名稱" prop="downboundGoods">
-          <el-input v-model="form.downboundGoods" placeholder="请输入貨物名稱" />
+          <!-- <el-input v-model="form.downboundGoods" placeholder="请输入貨物名稱" /> -->
+
+          <el-select clearable v-model="form.downboundGoods" placeholder="請選擇貨物名稱">
+            <el-option
+              v-for="goods in goodsList"
+              :key="goods.goodsId"
+              :value="goods.goodsId"
+              :label="goods.goodsId +' '+ goods.goodsName"
+            >{{goods.goodsId}} {{goods.goodsName}}</el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="貨物噸數" prop="downboundGoodsMt">
-          <el-input v-model="form.downboundGoodsMt" placeholder="请输入貨物噸數" />
+          <el-input-number v-model="form.downboundGoodsMt" placeholder="请输入貨物噸數" />
         </el-form-item>
         <el-form-item label="貨物單價" prop="downboundGoodsPrice">
-          <el-input v-model="form.downboundGoodsPrice" placeholder="请输入貨物單價" />
+          <el-input-number v-model="form.downboundGoodsPrice" placeholder="请输入貨物單價" />
         </el-form-item>
         <el-form-item label="此趟運費" prop="downboundTotal">
           <el-input v-model="form.downboundTotal" placeholder="请输入此趟運費" />
@@ -316,6 +360,10 @@ import {
   addDownbound,
   updateDownbound
 } from "@/api/ks/downbound";
+import { listUser } from "@/api/ks/employee";
+import { listCarid } from "@/api/ks/car";
+import { listClientForSelector } from "@/api/ks/client";
+import { listGoodsForSelector } from "@/api/ks/goods";
 
 export default {
   name: "Downbound",
@@ -337,6 +385,10 @@ export default {
       // 南下表單表格数据
       downboundList: [],
       dateRange: [],
+      userList: [],
+      carList: [],
+      clientList: [],
+      goodsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -404,8 +456,45 @@ export default {
   },
   created() {
     this.getList();
+    this.getUser();
+    this.getCars();
+    this.getClientList();
+    this.getGoodsList();
   },
   methods: {
+    // 輸入表單編號時候加的判斷
+    keyInCheckOrderId(value) {
+      if (value != null) {
+        value = value.replace(/[^\d]/g, ""); // 只能輸入數字
+        this.form.oilOrderId = parseInt(value); // 注意這裡是string，你要數字類型記得自己轉一下
+        // console.log(this.form.oilOrderId);
+      }
+    },
+    getGoodsList() {
+      listGoodsForSelector().then(response => {
+        console.info(response);
+        this.goodsList = response;
+      });
+    },
+    getClientList() {
+      listClientForSelector().then(response => {
+        console.info(response);
+        this.clientList = response;
+      });
+    },
+    getUser() {
+      listUser().then(response => {
+        console.info(response);
+        this.userList = response;
+      });
+    },
+    getCars() {
+      listCarid().then(response => {
+        console.info(response);
+        this.carList = response;
+      });
+    },
+
     /** 查询南下表單列表 */
     getList() {
       this.loading = true;
@@ -464,6 +553,13 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加南下表單";
+      // 新增之後給表單的默認值
+      // 8000年後失效 因為這個是只要數字的部分 (?)
+      // 參考: https://stackoverflow.com/questions/25159330/how-to-convert-an-iso-date-to-the-date-format-yyyy-mm-dd
+      // 台北時間+8小時
+      this.form.downboundDate = new Date(+new Date() + 8 * 3600 * 1000)
+        .toISOString()
+        .slice(0, 10);
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

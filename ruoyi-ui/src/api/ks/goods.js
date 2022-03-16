@@ -9,6 +9,15 @@ export function listGoods(query) {
   })
 }
 
+// 查询貨物表單列表
+export function listGoodsForSelector(query) {
+  return request({
+    url: '/ks/goods/listGoodsForSelector',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询貨物表單详细
 export function getGoods(id) {
   return request({

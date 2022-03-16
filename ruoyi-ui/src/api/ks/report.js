@@ -10,10 +10,11 @@ export function listReport(query) {
 }
 
 // 查询員工表單列表
-export function emplistReport(str) {
+export function emplistReport(query, str) {
   console.log(str)
   return request({
     url: '/ks/employee/emplistReport/' + str,
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

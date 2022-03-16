@@ -2,6 +2,8 @@ package com.ruoyi.kaisheng.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -76,12 +78,63 @@ public class KsEmployee extends BaseEntity {
 
 	@Excel(name = "北上單數")
 	private int gonorthCount;
+	@Excel(name = "北上營業額")
+	private BigDecimal gonorthRevenue;
 	@Excel(name = "南下單數")
 	private int downboundCount;
-	@Excel(name = "總共油錢")
+	@Excel(name = "南下營業額")
+	private BigDecimal downboundRevenue;
+
+	@Excel(name = "總營業額")
+	private BigDecimal revenueTotal;
+
+	@Excel(name = "日常支出單數")
+	private int expenseCount;
+	@Excel(name = "日常支出總額")
+	private BigDecimal expenseTotal;
+
+	@Excel(name = "加油單數")
+	private int oliCount;
+	@Excel(name = "油錢總額")
 	private BigDecimal oliAmount;
+
+	@Excel(name = "司機營業額")
+	private BigDecimal driverRevenue;
 	@Excel(name = "司機薪資")
 	private BigDecimal salary;
+
+	// 南下單子
+	private List<KsDownbound> downboundList;
+
+	public List<KsDownbound> getDownboundList() {
+		return downboundList;
+	}
+
+	public void setDownboundList(List<KsDownbound> downboundList) {
+		this.downboundList = downboundList;
+	}
+
+	// 北上單子
+	private List<KsGonorth> gonorthList;
+
+	public List<KsGonorth> getGonorthList() {
+		return gonorthList;
+	}
+
+	public void setGonorthList(List<KsGonorth> gonorthList) {
+		this.gonorthList = gonorthList;
+	}
+
+	// 日常支出單子
+	private List<KsExpense> expenseList;
+
+	public List<KsExpense> getExpenseList() {
+		return expenseList;
+	}
+
+	public void setExpenseList(List<KsExpense> expenseList) {
+		this.expenseList = expenseList;
+	}
 
 	public int getGonorthCount() {
 		return gonorthCount;
@@ -225,6 +278,62 @@ public class KsEmployee extends BaseEntity {
 
 	public String getReasonForLeaving() {
 		return reasonForLeaving;
+	}
+
+	public int getExpenseCount() {
+		return expenseCount;
+	}
+
+	public void setExpenseCount(int expenseCount) {
+		this.expenseCount = expenseCount;
+	}
+
+	public BigDecimal getGonorthRevenue() {
+		return gonorthRevenue;
+	}
+
+	public void setGonorthRevenue(BigDecimal gonorthRevenue) {
+		this.gonorthRevenue = gonorthRevenue;
+	}
+
+	public BigDecimal getDownboundRevenue() {
+		return downboundRevenue;
+	}
+
+	public void setDownboundRevenue(BigDecimal downboundRevenue) {
+		this.downboundRevenue = downboundRevenue;
+	}
+
+	public BigDecimal getExpenseTotal() {
+		return expenseTotal;
+	}
+
+	public void setExpenseTotal(BigDecimal expenseTotal) {
+		this.expenseTotal = expenseTotal;
+	}
+
+	public int getOliCount() {
+		return oliCount;
+	}
+
+	public void setOliCount(int oliCount) {
+		this.oliCount = oliCount;
+	}
+
+	public BigDecimal getRevenueTotal() {
+		return revenueTotal;
+	}
+
+	public void setRevenueTotal(BigDecimal revenueTotal) {
+		this.revenueTotal = revenueTotal;
+	}
+
+	public BigDecimal getDriverRevenue() {
+		return driverRevenue;
+	}
+
+	public void setDriverRevenue(BigDecimal driverRevenue) {
+		this.driverRevenue = driverRevenue;
 	}
 
 	@Override

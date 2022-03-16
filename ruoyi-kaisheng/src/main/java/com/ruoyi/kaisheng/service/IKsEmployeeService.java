@@ -1,6 +1,7 @@
 package com.ruoyi.kaisheng.service;
 
 import java.util.List;
+
 import com.ruoyi.kaisheng.domain.KsEmployee;
 
 /**
@@ -59,4 +60,5 @@ public interface IKsEmployeeService {
 	 * @return 结果
 	 */
 	public int deleteKsEmployeeById(Integer id);
+
 }

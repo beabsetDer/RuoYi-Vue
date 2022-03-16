@@ -83,10 +83,11 @@
   box-sizing: content-box;
 }
 
-.el-menu--collapse
-  > div
-  > .el-submenu
-  > .el-submenu__title
-  .el-submenu__icon-arrow {
+.el-menu--collapse>div>.el-submenu>.el-submenu__title .el-submenu__icon-arrow {
   display: none;
+}
+
+.el-scrollbar__wrap {
+  // 用于隐藏横向滚动条
+  overflow-x: hidden;
 }

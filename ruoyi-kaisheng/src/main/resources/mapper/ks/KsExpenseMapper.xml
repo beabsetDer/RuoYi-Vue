@@ -3,94 +3,119 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.kaisheng.mapper.KsExpenseMapper">
-    
-    <resultMap type="KsExpense" id="KsExpenseResult">
-        <result property="id"    column="id"    />
-        <result property="expenseId"    column="expense_id"    />
-        <result property="expenseDate"    column="expense_date"    />
-        <result property="expenseDriver"    column="expense_driver"    />
-        <result property="expenseLicensePlateNumber"    column="expense_license_plate_number"    />
-        <result property="expense1"    column="expense_1"    />
-        <result property="expense2"    column="expense_2"    />
-        <result property="expense3"    column="expense_3"    />
-        <result property="expenseOther"    column="expense_other"    />
-        <result property="expenseTotal"    column="expense_total"    />
-    </resultMap>
 
-    <sql id="selectKsExpenseVo">
-        select id, expense_id, expense_date, expense_driver, expense_license_plate_number, expense_1, expense_2, expense_3, expense_other, expense_total from ks_expense
-    </sql>
+	<resultMap type="KsExpense" id="KsExpenseResult">
+		<result property="id" column="id" />
+		<result property="expenseId" column="expense_id" />
+		<result property="expenseDate" column="expense_date" />
+		<result property="expenseDriver" column="expense_driver" />
+		<result property="expenseLicensePlateNumber"
+			column="expense_license_plate_number" />
+		<result property="expense1" column="expense_1" />
+		<result property="expense2" column="expense_2" />
+		<result property="expense3" column="expense_3" />
+		<result property="expenseOther" column="expense_other" />
+		<result property="expenseTotal" column="expense_total" />
+	</resultMap>
 
-    <select id="selectKsExpenseList" parameterType="KsExpense" resultMap="KsExpenseResult">
-        <include refid="selectKsExpenseVo"/>
-        <where>  
-            <if test="expenseId != null  and expenseId != ''"> and expense_id = #{expenseId}</if>
-            <if test="expenseDate != null "> and expense_date = #{expenseDate}</if>
-            <if test="expenseDriver != null  and expenseDriver != ''"> and expense_driver = #{expenseDriver}</if>
-            <if test="expenseLicensePlateNumber != null  and expenseLicensePlateNumber != ''"> and expense_license_plate_number = #{expenseLicensePlateNumber}</if>
-            <if test="expense1 != null "> and expense_1 = #{expense1}</if>
-            <if test="expense2 != null "> and expense_2 = #{expense2}</if>
-            <if test="expense3 != null "> and expense_3 = #{expense3}</if>
-            <if test="expenseOther != null "> and expense_other = #{expenseOther}</if>
-            <if test="expenseTotal != null "> and expense_total = #{expenseTotal}</if>
-        </where>
-    </select>
-    
-    <select id="selectKsExpenseById" parameterType="Integer" resultMap="KsExpenseResult">
-        <include refid="selectKsExpenseVo"/>
-        where id = #{id}
-    </select>
-        
-    <insert id="insertKsExpense" parameterType="KsExpense" useGeneratedKeys="true" keyProperty="id">
-        insert into ks_expense
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="expenseId != null and expenseId != ''">expense_id,</if>
-            <if test="expenseDate != null">expense_date,</if>
-            <if test="expenseDriver != null and expenseDriver != ''">expense_driver,</if>
-            <if test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">expense_license_plate_number,</if>
-            <if test="expense1 != null">expense_1,</if>
-            <if test="expense2 != null">expense_2,</if>
-            <if test="expense3 != null">expense_3,</if>
-            <if test="expenseOther != null">expense_other,</if>
-            <if test="expenseTotal != null">expense_total,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="expenseId != null and expenseId != ''">#{expenseId},</if>
-            <if test="expenseDate != null">#{expenseDate},</if>
-            <if test="expenseDriver != null and expenseDriver != ''">#{expenseDriver},</if>
-            <if test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">#{expenseLicensePlateNumber},</if>
-            <if test="expense1 != null">#{expense1},</if>
-            <if test="expense2 != null">#{expense2},</if>
-            <if test="expense3 != null">#{expense3},</if>
-            <if test="expenseOther != null">#{expenseOther},</if>
-            <if test="expenseTotal != null">#{expenseTotal},</if>
-         </trim>
-    </insert>
+	<sql id="selectKsExpenseVo">
+		select id, expense_id, expense_date, expense_driver,
+		expense_license_plate_number, expense_1, expense_2, expense_3,
+		expense_other, expense_total from ks_expense
+	</sql>
 
-    <update id="updateKsExpense" parameterType="KsExpense">
-        update ks_expense
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="expenseId != null and expenseId != ''">expense_id = #{expenseId},</if>
-            <if test="expenseDate != null">expense_date = #{expenseDate},</if>
-            <if test="expenseDriver != null and expenseDriver != ''">expense_driver = #{expenseDriver},</if>
-            <if test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">expense_license_plate_number = #{expenseLicensePlateNumber},</if>
-            <if test="expense1 != null">expense_1 = #{expense1},</if>
-            <if test="expense2 != null">expense_2 = #{expense2},</if>
-            <if test="expense3 != null">expense_3 = #{expense3},</if>
-            <if test="expenseOther != null">expense_other = #{expenseOther},</if>
-            <if test="expenseTotal != null">expense_total = #{expenseTotal},</if>
-        </trim>
-        where id = #{id}
-    </update>
+	<select id="selectKsExpenseList" parameterType="KsExpense"
+		resultMap="KsExpenseResult">
+		<include refid="selectKsExpenseVo" />
+		<where>
+			<if test="expenseId != null  and expenseId != ''"> and expense_id = #{expenseId}</if>
+			<if test="expenseDate != null "> and expense_date = #{expenseDate}</if>
+			<if test="expenseDriver != null  and expenseDriver != ''"> and expense_driver = #{expenseDriver}</if>
+			<if
+				test="expenseLicensePlateNumber != null  and expenseLicensePlateNumber != ''"> and expense_license_plate_number =
+				#{expenseLicensePlateNumber}
+			</if>
+			<if test="expense1 != null "> and expense_1 = #{expense1}</if>
+			<if test="expense2 != null "> and expense_2 = #{expense2}</if>
+			<if test="expense3 != null "> and expense_3 = #{expense3}</if>
+			<if test="expenseOther != null "> and expense_other = #{expenseOther}</if>
+			<if test="expenseTotal != null "> and expense_total = #{expenseTotal}</if>
 
-    <delete id="deleteKsExpenseById" parameterType="Integer">
-        delete from ks_expense where id = #{id}
-    </delete>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(expense_date,'%y%m%d') &gt;=
+				date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(expense_date,'%y%m%d') &lt;=
+				date_format(#{params.endTime},'%y%m%d')
+			</if>
 
-    <delete id="deleteKsExpenseByIds" parameterType="String">
-        delete from ks_expense where id in 
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+		</where>
+	</select>
+
+	<select id="selectKsExpenseById" parameterType="Integer"
+		resultMap="KsExpenseResult">
+		<include refid="selectKsExpenseVo" />
+		where id = #{id}
+	</select>
+
+	<insert id="insertKsExpense" parameterType="KsExpense"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ks_expense
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="expenseId != null and expenseId != ''">expense_id,</if>
+			<if test="expenseDate != null">expense_date,</if>
+			<if test="expenseDriver != null and expenseDriver != ''">expense_driver,</if>
+			<if
+				test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">expense_license_plate_number,</if>
+			<if test="expense1 != null">expense_1,</if>
+			<if test="expense2 != null">expense_2,</if>
+			<if test="expense3 != null">expense_3,</if>
+			<if test="expenseOther != null">expense_other,</if>
+			<if test="expenseTotal != null">expense_total,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="expenseId != null and expenseId != ''">#{expenseId},</if>
+			<if test="expenseDate != null">#{expenseDate},</if>
+			<if test="expenseDriver != null and expenseDriver != ''">#{expenseDriver},</if>
+			<if
+				test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">#{expenseLicensePlateNumber},</if>
+			<if test="expense1 != null">#{expense1},</if>
+			<if test="expense2 != null">#{expense2},</if>
+			<if test="expense3 != null">#{expense3},</if>
+			<if test="expenseOther != null">#{expenseOther},</if>
+			<if test="expenseTotal != null">#{expenseTotal},</if>
+		</trim>
+	</insert>
+
+	<update id="updateKsExpense" parameterType="KsExpense">
+		update ks_expense
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="expenseId != null and expenseId != ''">expense_id = #{expenseId},</if>
+			<if test="expenseDate != null">expense_date = #{expenseDate},</if>
+			<if test="expenseDriver != null and expenseDriver != ''">expense_driver = #{expenseDriver},</if>
+			<if
+				test="expenseLicensePlateNumber != null and expenseLicensePlateNumber != ''">expense_license_plate_number = #{expenseLicensePlateNumber},
+			</if>
+			<if test="expense1 != null">expense_1 = #{expense1},</if>
+			<if test="expense2 != null">expense_2 = #{expense2},</if>
+			<if test="expense3 != null">expense_3 = #{expense3},</if>
+			<if test="expenseOther != null">expense_other = #{expenseOther},</if>
+			<if test="expenseTotal != null">expense_total = #{expenseTotal},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteKsExpenseById" parameterType="Integer">
+		delete from
+		ks_expense where id = #{id}
+	</delete>
+
+	<delete id="deleteKsExpenseByIds" parameterType="String">
+		delete from ks_expense where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
 </mapper>

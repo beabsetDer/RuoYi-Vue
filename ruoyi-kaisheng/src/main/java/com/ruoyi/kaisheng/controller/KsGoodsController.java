@@ -16,6 +16,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.kaisheng.domain.KsCar;
 import com.ruoyi.kaisheng.domain.KsGoods;
 import com.ruoyi.kaisheng.service.IKsGoodsService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -29,76 +30,82 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/ks/goods")
-public class KsGoodsController extends BaseController
-{
-    @Autowired
-    private IKsGoodsService ksGoodsService;
+public class KsGoodsController extends BaseController {
+	@Autowired
+	private IKsGoodsService ksGoodsService;
 
-    /**
-     * 查询貨物表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(KsGoods ksGoods)
-    {
-        startPage();
-        List<KsGoods> list = ksGoodsService.selectKsGoodsList(ksGoods);
-        return getDataTable(list);
-    }
+	/**
+	 * 查询貨物表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:list')")
+	@GetMapping("/list")
+	public TableDataInfo list(KsGoods ksGoods) {
+		startPage();
+		List<KsGoods> list = ksGoodsService.selectKsGoodsList(ksGoods);
+		return getDataTable(list);
+	}
 
-    /**
-     * 导出貨物表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:export')")
-    @Log(title = "貨物表單", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, KsGoods ksGoods)
-    {
-        List<KsGoods> list = ksGoodsService.selectKsGoodsList(ksGoods);
-        ExcelUtil<KsGoods> util = new ExcelUtil<KsGoods>(KsGoods.class);
-        util.exportExcel(response, list, "貨物表單数据");
-    }
+	/**
+	 * 查询貨物表單列表(用於下拉框)
+	 * 
+	 * @param ksCar
+	 * @return
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:list')")
+	@GetMapping("/listGoodsForSelector")
+	public List<KsGoods> listGoods(KsGoods ksGoods) {
+		List<KsGoods> list = ksGoodsService.selectKsGoodsList(ksGoods);
+		return list;
+	}
 
-    /**
-     * 获取貨物表單详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(ksGoodsService.selectKsGoodsById(id));
-    }
+	/**
+	 * 导出貨物表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:export')")
+	@Log(title = "貨物表單", businessType = BusinessType.EXPORT)
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, KsGoods ksGoods) {
+		List<KsGoods> list = ksGoodsService.selectKsGoodsList(ksGoods);
+		ExcelUtil<KsGoods> util = new ExcelUtil<KsGoods>(KsGoods.class);
+		util.exportExcel(response, list, "貨物表單数据");
+	}
 
-    /**
-     * 新增貨物表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:add')")
-    @Log(title = "貨物表單", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody KsGoods ksGoods)
-    {
-        return toAjax(ksGoodsService.insertKsGoods(ksGoods));
-    }
+	/**
+	 * 获取貨物表單详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:query')")
+	@GetMapping(value = "/{id}")
+	public AjaxResult getInfo(@PathVariable("id") Integer id) {
+		return AjaxResult.success(ksGoodsService.selectKsGoodsById(id));
+	}
 
-    /**
-     * 修改貨物表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:edit')")
-    @Log(title = "貨物表單", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody KsGoods ksGoods)
-    {
-        return toAjax(ksGoodsService.updateKsGoods(ksGoods));
-    }
+	/**
+	 * 新增貨物表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:add')")
+	@Log(title = "貨物表單", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody KsGoods ksGoods) {
+		return toAjax(ksGoodsService.insertKsGoods(ksGoods));
+	}
 
-    /**
-     * 删除貨物表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:goods:remove')")
-    @Log(title = "貨物表單", businessType = BusinessType.DELETE)
+	/**
+	 * 修改貨物表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:edit')")
+	@Log(title = "貨物表單", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody KsGoods ksGoods) {
+		return toAjax(ksGoodsService.updateKsGoods(ksGoods));
+	}
+
+	/**
+	 * 删除貨物表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:goods:remove')")
+	@Log(title = "貨物表單", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(ksGoodsService.deleteKsGoodsByIds(ids));
-    }
+	public AjaxResult remove(@PathVariable Integer[] ids) {
+		return toAjax(ksGoodsService.deleteKsGoodsByIds(ids));
+	}
 }
