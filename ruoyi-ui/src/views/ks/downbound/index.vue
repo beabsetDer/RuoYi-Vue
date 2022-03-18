@@ -10,7 +10,7 @@
       <el-form-item label="南下單編號" prop="downboundId">
         <el-input
           v-model="queryParams.downboundId"
-          placeholder="请输入南下單編號"
+          placeholder="請輸入南下單編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -23,7 +23,7 @@
           v-model="queryParams.downboundDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择日期(南下單)"
+          placeholder="選擇日期(南下單)"
         ></el-date-picker>
       </el-form-item>
 
@@ -42,7 +42,7 @@
       <el-form-item label="司機名稱" prop="downboundDriver">
         <el-input
           v-model="queryParams.downboundDriver"
-          placeholder="请输入司機名稱"
+          placeholder="請輸入司機名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -51,7 +51,7 @@
       <el-form-item label="車牌號碼" prop="downboundLicensePlateNumber">
         <el-input
           v-model="queryParams.downboundLicensePlateNumber"
-          placeholder="请输入車牌號碼"
+          placeholder="請輸入車牌號碼"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -60,7 +60,7 @@
       <el-form-item label="公司名稱" prop="downboundCompany">
         <el-input
           v-model="queryParams.downboundCompany"
-          placeholder="请输入公司名稱"
+          placeholder="請輸入公司名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -69,7 +69,7 @@
       <el-form-item label="起點" prop="downboundOutset">
         <el-input
           v-model="queryParams.downboundOutset"
-          placeholder="请输入起點"
+          placeholder="請輸入起點"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -78,14 +78,14 @@
       <el-form-item label="堆場" prop="downboundYard">
         <el-input
           v-model="queryParams.downboundYard"
-          placeholder="请输入堆場"
+          placeholder="請輸入堆場"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="現金" prop="downboundCash">
-        <el-select v-model="queryParams.downboundCash" placeholder="请选择現金" clearable size="small">
+        <el-select v-model="queryParams.downboundCash" placeholder="請選擇現金" clearable size="small">
           <el-option
             v-for="dict in dict.type.ks_cash"
             :key="dict.value"
@@ -97,7 +97,7 @@
       <el-form-item label="貨物名稱" prop="downboundGoods">
         <el-input
           v-model="queryParams.downboundGoods"
-          placeholder="请输入貨物名稱"
+          placeholder="請輸入貨物名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -106,7 +106,7 @@
       <el-form-item label="貨物噸數" prop="downboundGoodsMt">
         <el-input
           v-model="queryParams.downboundGoodsMt"
-          placeholder="请输入貨物噸數"
+          placeholder="請輸入貨物噸數"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -115,7 +115,7 @@
       <el-form-item label="貨物單價" prop="downboundGoodsPrice">
         <el-input
           v-model="queryParams.downboundGoodsPrice"
-          placeholder="请输入貨物單價"
+          placeholder="請輸入貨物單價"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -124,7 +124,7 @@
       <el-form-item label="此趟運費" prop="downboundTotal">
         <el-input
           v-model="queryParams.downboundTotal"
-          placeholder="请输入此趟運費"
+          placeholder="請輸入此趟運費"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -133,7 +133,7 @@
       <el-form-item label="此趟薪資" prop="downboundDriverPay">
         <el-input
           v-model="queryParams.downboundDriverPay"
-          placeholder="请输入此趟薪資"
+          placeholder="請輸入此趟薪資"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -158,7 +158,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -180,13 +180,13 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:downbound:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -265,11 +265,11 @@
             v-model="form.downboundDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择日期(南下單)"
+            placeholder="選擇日期(南下單)"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="司機名稱" prop="downboundDriver">
-          <!-- <el-input v-model="form.downboundDriver" placeholder="请输入司機名稱" /> -->
+          <!-- <el-input v-model="form.downboundDriver" placeholder="請輸入司機名稱" /> -->
 
           <el-select clearable v-model="form.downboundDriver" placeholder="請選擇機司名稱">
             <el-option
@@ -281,7 +281,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="車牌號碼" prop="downboundLicensePlateNumber">
-          <!-- <el-input v-model="form.downboundLicensePlateNumber" placeholder="请输入車牌號碼" /> -->
+          <!-- <el-input v-model="form.downboundLicensePlateNumber" placeholder="請輸入車牌號碼" /> -->
 
           <el-select clearable v-model="form.downboundLicensePlateNumber" placeholder="請選擇車牌">
             <el-option
@@ -304,13 +304,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="起點" prop="downboundOutset">
-          <el-input v-model="form.downboundOutset" placeholder="请输入起點" />
+          <el-input v-model="form.downboundOutset" placeholder="請輸入起點" />
         </el-form-item>
         <el-form-item label="堆場" prop="downboundYard">
-          <el-input v-model="form.downboundYard" placeholder="请输入堆場" />
+          <el-input v-model="form.downboundYard" placeholder="請輸入堆場" />
         </el-form-item>
         <el-form-item label="現金" prop="downboundCash">
-          <el-select v-model="form.downboundCash" placeholder="请选择現金">
+          <el-select v-model="form.downboundCash" placeholder="請選擇現金">
             <el-option
               v-for="dict in dict.type.ks_cash"
               :key="dict.value"
@@ -320,7 +320,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="貨物名稱" prop="downboundGoods">
-          <!-- <el-input v-model="form.downboundGoods" placeholder="请输入貨物名稱" /> -->
+          <!-- <el-input v-model="form.downboundGoods" placeholder="請輸入貨物名稱" /> -->
 
           <el-select clearable v-model="form.downboundGoods" placeholder="請選擇貨物名稱">
             <el-option
@@ -332,16 +332,16 @@
           </el-select>
         </el-form-item>
         <el-form-item label="貨物噸數" prop="downboundGoodsMt">
-          <el-input-number v-model="form.downboundGoodsMt" placeholder="请输入貨物噸數" />
+          <el-input-number v-model="form.downboundGoodsMt" placeholder="請輸入貨物噸數" />
         </el-form-item>
         <el-form-item label="貨物單價" prop="downboundGoodsPrice">
-          <el-input-number v-model="form.downboundGoodsPrice" placeholder="请输入貨物單價" />
+          <el-input-number v-model="form.downboundGoodsPrice" placeholder="請輸入貨物單價" />
         </el-form-item>
         <el-form-item label="此趟運費" prop="downboundTotal">
-          <el-input v-model="form.downboundTotal" placeholder="请输入此趟運費" />
+          <el-input v-model="form.downboundTotal" placeholder="請輸入此趟運費" />
         </el-form-item>
         <el-form-item label="此趟薪資" prop="downboundDriverPay">
-          <el-input v-model="form.downboundDriverPay" placeholder="请输入此趟薪資" />
+          <el-input v-model="form.downboundDriverPay" placeholder="請輸入此趟薪資" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

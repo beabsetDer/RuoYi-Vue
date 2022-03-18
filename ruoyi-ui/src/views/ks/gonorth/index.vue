@@ -10,7 +10,7 @@
       <el-form-item label="北上單編號" prop="gonorthId">
         <el-input
           v-model="queryParams.gonorthId"
-          placeholder="请输入北上單編號"
+          placeholder="請輸入北上單編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -23,7 +23,7 @@
           v-model="queryParams.gonorthDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择日期(北上單)"
+          placeholder="選擇日期(北上單)"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="时间">
@@ -41,7 +41,7 @@
       <el-form-item label="司機名稱" prop="gonorthDriver">
         <el-input
           v-model="queryParams.gonorthDriver"
-          placeholder="请输入司機名稱"
+          placeholder="請輸入司機名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -50,7 +50,7 @@
       <el-form-item label="車牌號碼" prop="gonorthLicensePlateNumber">
         <el-input
           v-model="queryParams.gonorthLicensePlateNumber"
-          placeholder="请输入車牌號碼"
+          placeholder="請輸入車牌號碼"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -59,7 +59,7 @@
       <el-form-item label="公司名稱" prop="gonorthCompany">
         <el-input
           v-model="queryParams.gonorthCompany"
-          placeholder="请输入公司名稱"
+          placeholder="請輸入公司名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -68,7 +68,7 @@
       <el-form-item label="起點" prop="gonorthOutset">
         <el-input
           v-model="queryParams.gonorthOutset"
-          placeholder="请输入起點"
+          placeholder="請輸入起點"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -77,14 +77,14 @@
       <el-form-item label="堆場" prop="gonorthYard">
         <el-input
           v-model="queryParams.gonorthYard"
-          placeholder="请输入堆場"
+          placeholder="請輸入堆場"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="現金" prop="gonorthCash">
-        <el-select v-model="queryParams.gonorthCash" placeholder="请选择現金" clearable size="small">
+        <el-select v-model="queryParams.gonorthCash" placeholder="請選擇現金" clearable size="small">
           <el-option
             v-for="dict in dict.type.ks_cash"
             :key="dict.value"
@@ -96,7 +96,7 @@
       <el-form-item label="貨物名稱" prop="gonorthGoods">
         <el-input
           v-model="queryParams.gonorthGoods"
-          placeholder="请输入貨物名稱"
+          placeholder="請輸入貨物名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -105,7 +105,7 @@
       <el-form-item label="貨物噸數" prop="gonorthGoodsMt">
         <el-input
           v-model="queryParams.gonorthGoodsMt"
-          placeholder="请输入貨物噸數"
+          placeholder="請輸入貨物噸數"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -114,7 +114,7 @@
       <el-form-item label="公司單價" prop="gonorthGoodsPriceCompany">
         <el-input
           v-model="queryParams.gonorthGoodsPriceCompany"
-          placeholder="请输入公司單價"
+          placeholder="請輸入公司單價"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -123,7 +123,7 @@
       <el-form-item label="司機單價" prop="gonorthGoodsPriceDriver">
         <el-input
           v-model="queryParams.gonorthGoodsPriceDriver"
-          placeholder="请输入司機單價"
+          placeholder="請輸入司機單價"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -132,7 +132,7 @@
       <el-form-item label="公司此趟運費" prop="gonorthTotal">
         <el-input
           v-model="queryParams.gonorthTotal"
-          placeholder="请输入公司此趟運費"
+          placeholder="請輸入公司此趟運費"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -141,7 +141,7 @@
       <el-form-item label="扣發票金額" prop="gonorthBillTotal">
         <el-input
           v-model="queryParams.gonorthBillTotal"
-          placeholder="请输入扣發票金額"
+          placeholder="請輸入扣發票金額"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -150,7 +150,7 @@
       <el-form-item label="此趟薪資" prop="gonorthDriverPay">
         <el-input
           v-model="queryParams.gonorthDriverPay"
-          placeholder="请输入此趟薪資"
+          placeholder="請輸入此趟薪資"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -175,7 +175,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -197,13 +197,13 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:gonorth:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -266,7 +266,7 @@
     <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="北上單編號" prop="gonorthId">
-          <el-input v-model="form.gonorthId" placeholder="请输入北上單編號" />
+          <el-input v-model="form.gonorthId" placeholder="請輸入北上單編號" />
         </el-form-item>
         <el-form-item label="日期(北上單)" prop="gonorthDate">
           <el-date-picker
@@ -275,26 +275,26 @@
             v-model="form.gonorthDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择日期(北上單)"
+            placeholder="選擇日期(北上單)"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="司機名稱" prop="gonorthDriver">
-          <el-input v-model="form.gonorthDriver" placeholder="请输入司機名稱" />
+          <el-input v-model="form.gonorthDriver" placeholder="請輸入司機名稱" />
         </el-form-item>
         <el-form-item label="車牌號碼" prop="gonorthLicensePlateNumber">
-          <el-input v-model="form.gonorthLicensePlateNumber" placeholder="请输入車牌號碼" />
+          <el-input v-model="form.gonorthLicensePlateNumber" placeholder="請輸入車牌號碼" />
         </el-form-item>
         <el-form-item label="公司名稱" prop="gonorthCompany">
-          <el-input v-model="form.gonorthCompany" placeholder="请输入公司名稱" />
+          <el-input v-model="form.gonorthCompany" placeholder="請輸入公司名稱" />
         </el-form-item>
         <el-form-item label="起點" prop="gonorthOutset">
-          <el-input v-model="form.gonorthOutset" placeholder="请输入起點" />
+          <el-input v-model="form.gonorthOutset" placeholder="請輸入起點" />
         </el-form-item>
         <el-form-item label="堆場" prop="gonorthYard">
-          <el-input v-model="form.gonorthYard" placeholder="请输入堆場" />
+          <el-input v-model="form.gonorthYard" placeholder="請輸入堆場" />
         </el-form-item>
         <el-form-item label="現金" prop="gonorthCash">
-          <el-select v-model="form.gonorthCash" placeholder="请选择現金">
+          <el-select v-model="form.gonorthCash" placeholder="請選擇現金">
             <el-option
               v-for="dict in dict.type.ks_cash"
               :key="dict.value"
@@ -304,25 +304,25 @@
           </el-select>
         </el-form-item>
         <el-form-item label="貨物名稱" prop="gonorthGoods">
-          <el-input v-model="form.gonorthGoods" placeholder="请输入貨物名稱" />
+          <el-input v-model="form.gonorthGoods" placeholder="請輸入貨物名稱" />
         </el-form-item>
         <el-form-item label="貨物噸數" prop="gonorthGoodsMt">
-          <el-input v-model="form.gonorthGoodsMt" placeholder="请输入貨物噸數" />
+          <el-input v-model="form.gonorthGoodsMt" placeholder="請輸入貨物噸數" />
         </el-form-item>
         <el-form-item label="公司單價" prop="gonorthGoodsPriceCompany">
-          <el-input v-model="form.gonorthGoodsPriceCompany" placeholder="请输入公司單價" />
+          <el-input v-model="form.gonorthGoodsPriceCompany" placeholder="請輸入公司單價" />
         </el-form-item>
         <el-form-item label="司機單價" prop="gonorthGoodsPriceDriver">
-          <el-input v-model="form.gonorthGoodsPriceDriver" placeholder="请输入司機單價" />
+          <el-input v-model="form.gonorthGoodsPriceDriver" placeholder="請輸入司機單價" />
         </el-form-item>
         <el-form-item label="公司此趟運費" prop="gonorthTotal">
-          <el-input v-model="form.gonorthTotal" placeholder="请输入公司此趟運費" />
+          <el-input v-model="form.gonorthTotal" placeholder="請輸入公司此趟運費" />
         </el-form-item>
         <el-form-item label="扣發票金額" prop="gonorthBillTotal">
-          <el-input v-model="form.gonorthBillTotal" placeholder="请输入扣發票金額" />
+          <el-input v-model="form.gonorthBillTotal" placeholder="請輸入扣發票金額" />
         </el-form-item>
         <el-form-item label="此趟薪資" prop="gonorthDriverPay">
-          <el-input v-model="form.gonorthDriverPay" placeholder="请输入此趟薪資" />
+          <el-input v-model="form.gonorthDriverPay" placeholder="請輸入此趟薪資" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

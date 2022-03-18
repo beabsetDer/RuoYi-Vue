@@ -10,7 +10,7 @@
       <el-form-item label="日常開支編號" prop="expenseId">
         <el-input
           v-model="queryParams.expenseId"
-          placeholder="请输入日常開支編號"
+          placeholder="請輸入日常開支編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -23,13 +23,13 @@
           v-model="queryParams.expenseDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择日常開支日期"
+          placeholder="選擇日常開支日期"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="機司名稱" prop="expenseDriver">
         <el-input
           v-model="queryParams.expenseDriver"
-          placeholder="请输入機司名稱"
+          placeholder="請輸入機司名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -38,7 +38,7 @@
       <el-form-item label="車牌" prop="expenseLicensePlateNumber">
         <el-input
           v-model="queryParams.expenseLicensePlateNumber"
-          placeholder="请输入車牌"
+          placeholder="請輸入車牌"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -47,7 +47,7 @@
       <el-form-item label="土尾" prop="expense1">
         <el-input
           v-model="queryParams.expense1"
-          placeholder="请输入土尾"
+          placeholder="請輸入土尾"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -56,7 +56,7 @@
       <el-form-item label="發泡" prop="expense2">
         <el-input
           v-model="queryParams.expense2"
-          placeholder="请输入發泡"
+          placeholder="請輸入發泡"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -65,7 +65,7 @@
       <el-form-item label="洗車" prop="expense3">
         <el-input
           v-model="queryParams.expense3"
-          placeholder="请输入洗車"
+          placeholder="請輸入洗車"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -74,7 +74,7 @@
       <el-form-item label="其他雜項" prop="expenseOther">
         <el-input
           v-model="queryParams.expenseOther"
-          placeholder="请输入其他雜項"
+          placeholder="請輸入其他雜項"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -83,7 +83,7 @@
       <el-form-item label="日常開支總額" prop="expenseTotal">
         <el-input
           v-model="queryParams.expenseTotal"
-          placeholder="请输入日常開支總額"
+          placeholder="請輸入日常開支總額"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -108,7 +108,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -130,13 +130,13 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:expense:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -212,7 +212,7 @@
         </el-form-item>
         <el-form-item label="機司名稱" prop="expenseDriver">
           <!--
-          <el-input v-model="form.expenseDriver" placeholder="请输入機司名稱" />
+          <el-input v-model="form.expenseDriver" placeholder="請輸入機司名稱" />
           -->
           <el-select clearable v-model="form.expenseDriver" placeholder="請選擇機司名稱">
             <el-option
@@ -224,7 +224,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="車牌" prop="expenseLicensePlateNumber">
-          <!--<el-input v-model="form.expenseLicensePlateNumber" placeholder="请输入車牌" />-->
+          <!--<el-input v-model="form.expenseLicensePlateNumber" placeholder="請輸入車牌" />-->
 
           <el-select clearable v-model="form.expenseLicensePlateNumber" placeholder="請選擇車牌">
             <el-option

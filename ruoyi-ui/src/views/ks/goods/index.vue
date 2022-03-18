@@ -38,7 +38,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -60,13 +60,13 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:goods:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>

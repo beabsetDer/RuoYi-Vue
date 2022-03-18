@@ -83,7 +83,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -105,20 +105,20 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:client:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="clientList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="" align="center" prop="id" />
+      <el-table-column label="流水號" align="center" prop="id" />
       <el-table-column label="客戶公司編號" align="center" prop="clientId" />
       <el-table-column label="客戶公司名稱" align="center" prop="clientName" />
       <el-table-column label="客戶公司電話" align="center" prop="clientTel" />

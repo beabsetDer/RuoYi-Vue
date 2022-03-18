@@ -4,7 +4,7 @@
       <el-form-item label="車牌" prop="licensePlateNumber">
         <el-input
           v-model="queryParams.licensePlateNumber"
-          placeholder="请输入車牌"
+          placeholder="請輸入車牌"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -13,7 +13,7 @@
       <el-form-item label="車輛狀況" prop="carIdle">
         <el-input
           v-model="queryParams.carIdle"
-          placeholder="请输入車輛狀況"
+          placeholder="請輸入車輛狀況"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -24,13 +24,13 @@
           v-model="queryParams.carPurchaseDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择購車日期">
+          placeholder="選擇購車日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="貸款狀態" prop="carLoan">
         <el-input
           v-model="queryParams.carLoan"
-          placeholder="请输入貸款狀態"
+          placeholder="請輸入貸款狀態"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -41,7 +41,7 @@
           v-model="queryParams.carMaintenanceDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择保養日期">
+          placeholder="選擇保養日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="下次保養日期" prop="nextMaintenanceDate">
@@ -49,13 +49,13 @@
           v-model="queryParams.nextMaintenanceDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择下次保養日期">
+          placeholder="選擇下次保養日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="保養狀態" prop="carMaintenance">
         <el-input
           v-model="queryParams.carMaintenance"
-          placeholder="请输入保養狀態"
+          placeholder="請輸入保養狀態"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -80,7 +80,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -102,13 +102,13 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
+          type="success"
+          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:car:export']"
-        >导出</el-button>
+        >匯出Excel</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -167,28 +167,28 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="車牌" prop="licensePlateNumber">
-          <el-input v-model="form.licensePlateNumber" placeholder="请输入車牌" />
+          <el-input v-model="form.licensePlateNumber" placeholder="請輸入車牌" />
         </el-form-item>
         <el-form-item label="車輛狀況" prop="carIdle">
-          <el-input v-model="form.carIdle" placeholder="请输入車輛狀況" />
+          <el-input v-model="form.carIdle" placeholder="請輸入車輛狀況" />
         </el-form-item>
         <el-form-item label="購車日期" prop="carPurchaseDate">
           <el-date-picker clearable size="small"
             v-model="form.carPurchaseDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择購車日期">
+            placeholder="選擇購車日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="貸款狀態" prop="carLoan">
-          <el-input v-model="form.carLoan" placeholder="请输入貸款狀態" />
+          <el-input v-model="form.carLoan" placeholder="請輸入貸款狀態" />
         </el-form-item>
         <el-form-item label="保養日期" prop="carMaintenanceDate">
           <el-date-picker clearable size="small"
             v-model="form.carMaintenanceDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择保養日期">
+            placeholder="選擇保養日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="下次保養日期" prop="nextMaintenanceDate">
@@ -196,11 +196,11 @@
             v-model="form.nextMaintenanceDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择下次保養日期">
+            placeholder="選擇下次保養日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="保養狀態" prop="carMaintenance">
-          <el-input v-model="form.carMaintenance" placeholder="请输入保養狀態" />
+          <el-input v-model="form.carMaintenance" placeholder="請輸入保養狀態" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

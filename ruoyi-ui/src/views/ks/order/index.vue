@@ -40,16 +40,6 @@
       </el-form-item>
 
       <el-form-item label="機司名稱" prop="oilDriver">
-        <!--
-        <el-input
-          v-model="queryParams.oilDriver"
-          placeholder="請輸入機司名稱"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-        -->
-
         <el-select clearable v-model="queryParams.oilDriver" placeholder="請選擇機司名稱" size="small">
           <el-option
             v-for="item in userList"
@@ -165,7 +155,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
