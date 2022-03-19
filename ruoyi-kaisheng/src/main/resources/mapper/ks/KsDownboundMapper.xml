@@ -41,7 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundDriver != null  and downboundDriver != ''"> and downbound_driver = #{downboundDriver}</if>
 			<if
 				test="downboundLicensePlateNumber != null  and downboundLicensePlateNumber != ''"> and downbound_license_plate_number =
-				#{downboundLicensePlateNumber}</if>
+				#{downboundLicensePlateNumber}
+			</if>
 			<if test="downboundCompany != null  and downboundCompany != ''"> and downbound_company = #{downboundCompany}</if>
 			<if test="downboundOutset != null  and downboundOutset != ''"> and downbound_outset = #{downboundOutset}</if>
 			<if test="downboundYard != null  and downboundYard != ''"> and downbound_yard = #{downboundYard}</if>
@@ -60,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				date_format(#{params.endTime},'%y%m%d')
 			</if>
 		</where>
+		order by id desc
 	</select>
 
 	<select id="selectKsDownboundById" parameterType="Integer"
@@ -113,7 +115,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundDriver != null and downboundDriver != ''">downbound_driver = #{downboundDriver},</if>
 			<if
 				test="downboundLicensePlateNumber != null and downboundLicensePlateNumber != ''">downbound_license_plate_number =
-				#{downboundLicensePlateNumber},</if>
+				#{downboundLicensePlateNumber},
+			</if>
 			<if test="downboundCompany != null and downboundCompany != ''">downbound_company = #{downboundCompany},</if>
 			<if test="downboundOutset != null and downboundOutset != ''">downbound_outset = #{downboundOutset},</if>
 			<if test="downboundYard != null and downboundYard != ''">downbound_yard = #{downboundYard},</if>
@@ -128,7 +131,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 	<delete id="deleteKsDownboundById" parameterType="Integer">
-		delete from ks_downbound where id = #{id}
+		delete from
+		ks_downbound where id = #{id}
 	</delete>
 
 	<delete id="deleteKsDownboundByIds" parameterType="String">
