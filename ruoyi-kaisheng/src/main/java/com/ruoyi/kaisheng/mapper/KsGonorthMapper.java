@@ -7,7 +7,7 @@ import com.ruoyi.kaisheng.domain.KsGonorth;
  * 北上表單Mapper接口
  * 
  * @author Sheng
- * @date 2022-02-22
+ * @date 2022-03-30
  */
 public interface KsGonorthMapper 
 {

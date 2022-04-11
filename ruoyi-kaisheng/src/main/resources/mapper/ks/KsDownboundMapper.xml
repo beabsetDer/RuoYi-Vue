@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="KsDownbound" id="KsDownboundResult">
 		<result property="id" column="id" />
 		<result property="downboundId" column="downbound_id" />
+		<result property="downboundCouponNumber"
+			column="downbound_coupon_number" />
+		<result property="downboundSoftOrderNumber"
+			column="downbound_soft_order_number" />
 		<result property="downboundDate" column="downbound_date" />
 		<result property="downboundDriver" column="downbound_driver" />
 		<result property="downboundLicensePlateNumber"
@@ -15,20 +19,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="downboundOutset" column="downbound_outset" />
 		<result property="downboundYard" column="downbound_yard" />
 		<result property="downboundCash" column="downbound_cash" />
+		<result property="downboundBill" column="downbound_bill" />
 		<result property="downboundGoods" column="downbound_goods" />
 		<result property="downboundGoodsMt" column="downbound_goods_mt" />
+		<result property="downboundGoodsCustomerMt"
+			column="downbound_goods_customer_mt" />
+		<result property="downboundGoodsPriceDriver"
+			column="downbound_goods_price_driver" />
+		<result property="downboundBillTotal"
+			column="downbound_bill_total" />
 		<result property="downboundGoodsPrice"
 			column="downbound_goods_price" />
 		<result property="downboundTotal" column="downbound_total" />
-		<result property="downboundDriverPay"
-			column="downbound_driver_pay" />
 	</resultMap>
 
 	<sql id="selectKsDownboundVo">
-		select id, downbound_id, downbound_date, downbound_driver,
-		downbound_license_plate_number, downbound_company, downbound_outset,
-		downbound_yard, downbound_cash, downbound_goods, downbound_goods_mt,
-		downbound_goods_price, downbound_total, downbound_driver_pay from
+		select id,
+		downbound_id,
+		downbound_coupon_number,
+		downbound_soft_order_number,
+		downbound_date,
+		downbound_driver,
+		downbound_license_plate_number,
+		downbound_company,
+		downbound_outset,
+		downbound_yard,
+		downbound_cash,
+		downbound_bill,
+		downbound_goods,
+		downbound_goods_mt,
+		downbound_goods_customer_mt,
+		downbound_goods_price_driver,
+		downbound_bill_total,
+		downbound_goods_price,
+		downbound_total from
 		ks_downbound
 	</sql>
 
@@ -37,6 +61,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectKsDownboundVo" />
 		<where>
 			<if test="downboundId != null  and downboundId != ''"> and downbound_id = #{downboundId}</if>
+			<if
+				test="downboundCouponNumber != null  and downboundCouponNumber != ''"> and downbound_coupon_number = #{downboundCouponNumber}</if>
+			<if
+				test="downboundSoftOrderNumber != null  and downboundSoftOrderNumber != ''"> and downbound_soft_order_number = #{downboundSoftOrderNumber}
+			</if>
 			<if test="downboundDate != null "> and downbound_date = #{downboundDate}</if>
 			<if test="downboundDriver != null  and downboundDriver != ''"> and downbound_driver = #{downboundDriver}</if>
 			<if
@@ -47,11 +76,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundOutset != null  and downboundOutset != ''"> and downbound_outset = #{downboundOutset}</if>
 			<if test="downboundYard != null  and downboundYard != ''"> and downbound_yard = #{downboundYard}</if>
 			<if test="downboundCash != null  and downboundCash != ''"> and downbound_cash = #{downboundCash}</if>
+			<if test="downboundBill != null  and downboundBill != ''"> and downbound_bill = #{downboundBill}</if>
 			<if test="downboundGoods != null  and downboundGoods != ''"> and downbound_goods = #{downboundGoods}</if>
 			<if test="downboundGoodsMt != null "> and downbound_goods_mt = #{downboundGoodsMt}</if>
+			<if test="downboundGoodsCustomerMt != null "> and downbound_goods_customer_mt =
+				#{downboundGoodsCustomerMt}
+			</if>
+			<if test="downboundGoodsPriceDriver != null "> and downbound_goods_price_driver =
+				#{downboundGoodsPriceDriver}
+			</if>
+			<if test="downboundBillTotal != null "> and downbound_bill_total = #{downboundBillTotal}</if>
 			<if test="downboundGoodsPrice != null "> and downbound_goods_price = #{downboundGoodsPrice}</if>
 			<if test="downboundTotal != null "> and downbound_total = #{downboundTotal}</if>
-			<if test="downboundDriverPay != null "> and downbound_driver_pay = #{downboundDriverPay}</if>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
 				and date_format(downbound_date,'%y%m%d') &gt;=
 				date_format(#{params.beginTime},'%y%m%d')
@@ -75,6 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ks_downbound
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="downboundId != null and downboundId != ''">downbound_id,</if>
+			<if test="downboundCouponNumber != null">downbound_coupon_number,</if>
+			<if test="downboundSoftOrderNumber != null">downbound_soft_order_number,</if>
 			<if test="downboundDate != null">downbound_date,</if>
 			<if test="downboundDriver != null and downboundDriver != ''">downbound_driver,</if>
 			<if
@@ -83,14 +121,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundOutset != null and downboundOutset != ''">downbound_outset,</if>
 			<if test="downboundYard != null and downboundYard != ''">downbound_yard,</if>
 			<if test="downboundCash != null and downboundCash != ''">downbound_cash,</if>
+			<if test="downboundBill != null and downboundBill != ''">downbound_bill,</if>
 			<if test="downboundGoods != null">downbound_goods,</if>
 			<if test="downboundGoodsMt != null">downbound_goods_mt,</if>
+			<if test="downboundGoodsCustomerMt != null">downbound_goods_customer_mt,</if>
+			<if test="downboundGoodsPriceDriver != null">downbound_goods_price_driver,</if>
+			<if test="downboundBillTotal != null">downbound_bill_total,</if>
 			<if test="downboundGoodsPrice != null">downbound_goods_price,</if>
 			<if test="downboundTotal != null">downbound_total,</if>
-			<if test="downboundDriverPay != null">downbound_driver_pay,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="downboundId != null and downboundId != ''">#{downboundId},</if>
+			<if test="downboundCouponNumber != null">#{downboundCouponNumber},</if>
+			<if test="downboundSoftOrderNumber != null">#{downboundSoftOrderNumber},</if>
 			<if test="downboundDate != null">#{downboundDate},</if>
 			<if test="downboundDriver != null and downboundDriver != ''">#{downboundDriver},</if>
 			<if
@@ -99,11 +142,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundOutset != null and downboundOutset != ''">#{downboundOutset},</if>
 			<if test="downboundYard != null and downboundYard != ''">#{downboundYard},</if>
 			<if test="downboundCash != null and downboundCash != ''">#{downboundCash},</if>
+			<if test="downboundBill != null and downboundBill != ''">#{downboundBill},</if>
 			<if test="downboundGoods != null">#{downboundGoods},</if>
 			<if test="downboundGoodsMt != null">#{downboundGoodsMt},</if>
+			<if test="downboundGoodsCustomerMt != null">#{downboundGoodsCustomerMt},</if>
+			<if test="downboundGoodsPriceDriver != null">#{downboundGoodsPriceDriver},</if>
+			<if test="downboundBillTotal != null">#{downboundBillTotal},</if>
 			<if test="downboundGoodsPrice != null">#{downboundGoodsPrice},</if>
 			<if test="downboundTotal != null">#{downboundTotal},</if>
-			<if test="downboundDriverPay != null">#{downboundDriverPay},</if>
 		</trim>
 	</insert>
 
@@ -111,6 +157,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update ks_downbound
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="downboundId != null and downboundId != ''">downbound_id = #{downboundId},</if>
+			<if test="downboundCouponNumber != null">downbound_coupon_number = #{downboundCouponNumber},</if>
+			<if test="downboundSoftOrderNumber != null">downbound_soft_order_number =
+				#{downboundSoftOrderNumber},
+			</if>
 			<if test="downboundDate != null">downbound_date = #{downboundDate},</if>
 			<if test="downboundDriver != null and downboundDriver != ''">downbound_driver = #{downboundDriver},</if>
 			<if
@@ -121,11 +171,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="downboundOutset != null and downboundOutset != ''">downbound_outset = #{downboundOutset},</if>
 			<if test="downboundYard != null and downboundYard != ''">downbound_yard = #{downboundYard},</if>
 			<if test="downboundCash != null and downboundCash != ''">downbound_cash = #{downboundCash},</if>
+			<if test="downboundBill != null and downboundBill != ''">downbound_bill = #{downboundBill},</if>
 			<if test="downboundGoods != null">downbound_goods = #{downboundGoods},</if>
 			<if test="downboundGoodsMt != null">downbound_goods_mt = #{downboundGoodsMt},</if>
+			<if test="downboundGoodsCustomerMt != null">downbound_goods_customer_mt =
+				#{downboundGoodsCustomerMt},
+			</if>
+			<if test="downboundGoodsPriceDriver != null">downbound_goods_price_driver =
+				#{downboundGoodsPriceDriver},</if>
+			<if test="downboundBillTotal != null">downbound_bill_total = #{downboundBillTotal},</if>
 			<if test="downboundGoodsPrice != null">downbound_goods_price = #{downboundGoodsPrice},</if>
 			<if test="downboundTotal != null">downbound_total = #{downboundTotal},</if>
-			<if test="downboundDriverPay != null">downbound_driver_pay = #{downboundDriverPay},</if>
 		</trim>
 		where id = #{id}
 	</update>

@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 北上表單Controller
  * 
  * @author Sheng
- * @date 2022-02-22
+ * @date 2022-03-30
  */
 @RestController
 @RequestMapping("/ks/gonorth")

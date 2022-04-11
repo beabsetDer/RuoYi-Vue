@@ -7,70 +7,52 @@
       v-show="showSearch"
       label-width="120px"
     >
-      <el-form-item label="車牌" prop="licensePlateNumber">
+      <el-form-item label="地點編號" prop="placeId">
         <el-input
-          v-model="queryParams.licensePlateNumber"
-          placeholder="請輸入車牌"
+          v-model="queryParams.placeId"
+          placeholder="請輸入地點編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="車輛狀況" prop="carIdle">
+      <el-form-item label="地點名稱" prop="placeName">
         <el-input
-          v-model="queryParams.carIdle"
-          placeholder="請輸入車輛狀況"
+          v-model="queryParams.placeName"
+          placeholder="請輸入地點名稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="購車日期" prop="carPurchaseDate">
-        <el-date-picker
+      <el-form-item label="地點類型" prop="placeType">
+        <el-select
+          v-model="queryParams.placeType"
+          placeholder="請選擇地點類型"
           clearable
           size="small"
-          v-model="queryParams.carPurchaseDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="選擇購車日期"
         >
-        </el-date-picker>
+          <el-option
+            v-for="dict in dict.type.ks_place"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="貸款狀態" prop="carLoan">
+      <el-form-item label="場地負責人" prop="placePrincipal">
         <el-input
-          v-model="queryParams.carLoan"
-          placeholder="請輸入貸款狀態"
+          v-model="queryParams.placePrincipal"
+          placeholder="請輸入場地負責人"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="保養日期" prop="carMaintenanceDate">
-        <el-date-picker
-          clearable
-          size="small"
-          v-model="queryParams.carMaintenanceDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="選擇保養日期"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="下次保養日期" prop="nextMaintenanceDate">
-        <el-date-picker
-          clearable
-          size="small"
-          v-model="queryParams.nextMaintenanceDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="選擇下次保養日期"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="保養狀態" prop="carMaintenance">
+      <el-form-item label="負責人電話" prop="placePrincipalTel">
         <el-input
-          v-model="queryParams.carMaintenance"
-          placeholder="請輸入保養狀態"
+          v-model="queryParams.placePrincipalTel"
+          placeholder="請輸入負責人電話"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -98,19 +80,19 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['ks:car:add']"
+          v-hasPermi="['ks:place:add']"
           >新增</el-button
         >
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
+          type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['ks:car:edit']"
+          v-hasPermi="['ks:place:edit']"
           >修改</el-button
         >
       </el-col>
@@ -122,17 +104,18 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['ks:car:remove']"
+          v-hasPermi="['ks:place:remove']"
           >删除</el-button
         >
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="warning"
+          plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['ks:car:export']"
+          v-hasPermi="['ks:place:export']"
           >匯出Excel</el-button
         >
       </el-col>
@@ -144,49 +127,31 @@
 
     <el-table
       v-loading="loading"
-      :data="carList"
+      :data="placeList"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="流水號" align="center" prop="id" />
-      <el-table-column label="車牌" align="center" prop="licensePlateNumber" />
-      <el-table-column label="車輛狀況" align="center" prop="carIdle" />
-      <el-table-column
-        label="購車日期"
-        align="center"
-        prop="carPurchaseDate"
-        width="180"
-      >
+      <el-table-column label="地點編號" align="center" prop="placeId" />
+      <el-table-column label="地點名稱" align="center" prop="placeName" />
+      <el-table-column label="地點類型" align="center" prop="placeType">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.carPurchaseDate, "{y}-{m}-{d}") }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="貸款狀態" align="center" prop="carLoan" />
-      <el-table-column
-        label="保養日期"
-        align="center"
-        prop="carMaintenanceDate"
-        width="180"
-      >
-        <template slot-scope="scope">
-          <span>{{
-            parseTime(scope.row.carMaintenanceDate, "{y}-{m}-{d}")
-          }}</span>
+          <dict-tag
+            :options="dict.type.ks_place"
+            :value="scope.row.placeType"
+          />
         </template>
       </el-table-column>
       <el-table-column
-        label="下次保養日期"
+        label="場地負責人"
         align="center"
-        prop="nextMaintenanceDate"
-        width="180"
-      >
-        <template slot-scope="scope">
-          <span>{{
-            parseTime(scope.row.nextMaintenanceDate, "{y}-{m}-{d}")
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="保養狀態" align="center" prop="carMaintenance" />
+        prop="placePrincipal"
+      />
+      <el-table-column
+        label="負責人電話"
+        align="center"
+        prop="placePrincipalTel"
+      />
       <el-table-column
         label="操作"
         align="center"
@@ -198,7 +163,7 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['ks:car:edit']"
+            v-hasPermi="['ks:place:edit']"
             >修改</el-button
           >
           <el-button
@@ -206,7 +171,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['ks:car:remove']"
+            v-hasPermi="['ks:place:remove']"
             >删除</el-button
           >
         </template>
@@ -221,63 +186,40 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改車輛表單对话框 -->
+    <!-- 添加或修改地點表單对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-        <el-form-item label="車牌" prop="licensePlateNumber">
+        <el-form-item label="地點編號" prop="placeId">
+          <el-input v-model="form.placeId" placeholder="請輸入地點編號" />
+        </el-form-item>
+        <el-form-item label="地點名稱" prop="placeName">
+          <el-input v-model="form.placeName" placeholder="請輸入地點名稱" />
+        </el-form-item>
+        <el-form-item label="地點類型" prop="placeType">
+          <el-select v-model="form.placeType" placeholder="請選擇地點類型">
+            <el-option
+              v-for="dict in dict.type.ks_place"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="場地負責人" prop="placePrincipal">
           <el-input
-            v-model="form.licensePlateNumber"
-            placeholder="請輸入車牌"
+            v-model="form.placePrincipal"
+            placeholder="請輸入場地負責人"
           />
         </el-form-item>
-        <el-form-item label="車輛狀況" prop="carIdle">
-          <el-input v-model="form.carIdle" placeholder="請輸入車輛狀況" />
-        </el-form-item>
-        <el-form-item label="購車日期" prop="carPurchaseDate">
-          <el-date-picker
-            clearable
-            size="small"
-            v-model="form.carPurchaseDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="選擇購車日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="貸款狀態" prop="carLoan">
-          <el-input v-model="form.carLoan" placeholder="請輸入貸款狀態" />
-        </el-form-item>
-        <el-form-item label="保養日期" prop="carMaintenanceDate">
-          <el-date-picker
-            clearable
-            size="small"
-            v-model="form.carMaintenanceDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="選擇保養日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="下次保養日期" prop="nextMaintenanceDate">
-          <el-date-picker
-            clearable
-            size="small"
-            v-model="form.nextMaintenanceDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="選擇下次保養日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="保養狀態" prop="carMaintenance">
+        <el-form-item label="負責人電話" prop="placePrincipalTel">
           <el-input
-            v-model="form.carMaintenance"
-            placeholder="請輸入保養狀態"
+            v-model="form.placePrincipalTel"
+            placeholder="請輸入負責人電話"
           />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm">確 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -285,10 +227,17 @@
 </template>
 
 <script>
-import { listCar, getCar, delCar, addCar, updateCar } from "@/api/ks/car";
+import {
+  listPlace,
+  getPlace,
+  delPlace,
+  addPlace,
+  updatePlace,
+} from "@/api/ks/place";
 
 export default {
-  name: "Car",
+  name: "Place",
+  dicts: ["ks_place"],
   data() {
     return {
       // 遮罩层
@@ -303,8 +252,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 車輛表單表格数据
-      carList: [],
+      // 地點表單表格数据
+      placeList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -313,23 +262,21 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        licensePlateNumber: null,
-        carIdle: null,
-        carPurchaseDate: null,
-        carLoan: null,
-        carMaintenanceDate: null,
-        nextMaintenanceDate: null,
-        carMaintenance: null,
+        placeId: null,
+        placeName: null,
+        placeType: null,
+        placePrincipal: null,
+        placePrincipalTel: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        licensePlateNumber: [
-          { required: true, message: "車牌不能为空", trigger: "blur" },
+        placeId: [
+          { required: true, message: "地點編號不能为空", trigger: "blur" },
         ],
-        carIdle: [
-          { required: true, message: "車輛狀況不能为空", trigger: "blur" },
+        placeType: [
+          { required: true, message: "地點類型不能为空", trigger: "change" },
         ],
       },
     };
@@ -338,11 +285,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询車輛表單列表 */
+    /** 查询地點表單列表 */
     getList() {
       this.loading = true;
-      listCar(this.queryParams).then((response) => {
-        this.carList = response.rows;
+      listPlace(this.queryParams).then((response) => {
+        this.placeList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -356,13 +303,11 @@ export default {
     reset() {
       this.form = {
         id: null,
-        licensePlateNumber: null,
-        carIdle: null,
-        carPurchaseDate: null,
-        carLoan: null,
-        carMaintenanceDate: null,
-        nextMaintenanceDate: null,
-        carMaintenance: null,
+        placeId: null,
+        placeName: null,
+        placeType: null,
+        placePrincipal: null,
+        placePrincipalTel: null,
       };
       this.resetForm("form");
     },
@@ -386,16 +331,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加車輛表單";
+      this.title = "添加地點表單";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
-      getCar(id).then((response) => {
+      getPlace(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改車輛表單";
+        this.title = "修改地點表單";
       });
     },
     /** 提交按钮 */
@@ -403,13 +348,13 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.id != null) {
-            updateCar(this.form).then((response) => {
+            updatePlace(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addCar(this.form).then((response) => {
+            addPlace(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -422,9 +367,9 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除車輛表單编号为"' + ids + '"的数据项？')
+        .confirm('是否确认删除地點表單编号为"' + ids + '"的数据项？')
         .then(function () {
-          return delCar(ids);
+          return delPlace(ids);
         })
         .then(() => {
           this.getList();
@@ -435,11 +380,11 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "ks/car/export",
+        "ks/place/export",
         {
           ...this.queryParams,
         },
-        `car_${new Date().getTime()}.xlsx`
+        `place_${new Date().getTime()}.xlsx`
       );
     },
   },

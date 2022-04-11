@@ -29,76 +29,69 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/ks/order")
-public class KsOilOrderController extends BaseController
-{
-    @Autowired
-    private IKsOilOrderService ksOilOrderService;
+public class KsOilOrderController extends BaseController {
+	@Autowired
+	private IKsOilOrderService ksOilOrderService;
 
-    /**
-     * 查询加油表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(KsOilOrder ksOilOrder)
-    {
-        startPage();
-        List<KsOilOrder> list = ksOilOrderService.selectKsOilOrderList(ksOilOrder);
-        return getDataTable(list);
-    }
+	/**
+	 * 查询加油表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:list')")
+	@GetMapping("/list")
+	public TableDataInfo list(KsOilOrder ksOilOrder) {
+		startPage();
+		List<KsOilOrder> list = ksOilOrderService.selectKsOilOrderList(ksOilOrder);
+		return getDataTable(list);
+	}
 
-    /**
-     * 导出加油表單列表
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:export')")
-    @Log(title = "加油表單", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, KsOilOrder ksOilOrder)
-    {
-        List<KsOilOrder> list = ksOilOrderService.selectKsOilOrderList(ksOilOrder);
-        ExcelUtil<KsOilOrder> util = new ExcelUtil<KsOilOrder>(KsOilOrder.class);
-        util.exportExcel(response, list, "加油表單数据");
-    }
+	/**
+	 * 导出加油表單列表
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:export')")
+	@Log(title = "加油表單", businessType = BusinessType.EXPORT)
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, KsOilOrder ksOilOrder) {
+		List<KsOilOrder> list = ksOilOrderService.selectKsOilOrderList(ksOilOrder);
+		ExcelUtil<KsOilOrder> util = new ExcelUtil<KsOilOrder>(KsOilOrder.class);
+		util.exportExcel(response, list, "加油表單数据");
+	}
 
-    /**
-     * 获取加油表單详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(ksOilOrderService.selectKsOilOrderById(id));
-    }
+	/**
+	 * 获取加油表單详细信息
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:query')")
+	@GetMapping(value = "/{id}")
+	public AjaxResult getInfo(@PathVariable("id") Integer id) {
+		return AjaxResult.success(ksOilOrderService.selectKsOilOrderById(id));
+	}
 
-    /**
-     * 新增加油表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:add')")
-    @Log(title = "加油表單", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody KsOilOrder ksOilOrder)
-    {
-        return toAjax(ksOilOrderService.insertKsOilOrder(ksOilOrder));
-    }
+	/**
+	 * 新增加油表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:add')")
+	@Log(title = "加油表單", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody KsOilOrder ksOilOrder) {
+		return toAjax(ksOilOrderService.insertKsOilOrder(ksOilOrder));
+	}
 
-    /**
-     * 修改加油表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:edit')")
-    @Log(title = "加油表單", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody KsOilOrder ksOilOrder)
-    {
-        return toAjax(ksOilOrderService.updateKsOilOrder(ksOilOrder));
-    }
+	/**
+	 * 修改加油表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:edit')")
+	@Log(title = "加油表單", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody KsOilOrder ksOilOrder) {
+		return toAjax(ksOilOrderService.updateKsOilOrder(ksOilOrder));
+	}
 
-    /**
-     * 删除加油表單
-     */
-    @PreAuthorize("@ss.hasPermi('ks:order:remove')")
-    @Log(title = "加油表單", businessType = BusinessType.DELETE)
+	/**
+	 * 删除加油表單
+	 */
+	@PreAuthorize("@ss.hasPermi('ks:order:remove')")
+	@Log(title = "加油表單", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(ksOilOrderService.deleteKsOilOrderByIds(ids));
-    }
+	public AjaxResult remove(@PathVariable Integer[] ids) {
+		return toAjax(ksOilOrderService.deleteKsOilOrderByIds(ids));
+	}
 }

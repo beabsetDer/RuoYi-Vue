@@ -64,6 +64,7 @@ public class KsEmployeeController extends BaseController {
 	@GetMapping("/list")
 	public TableDataInfo list(KsEmployee ksEmployee) {
 		startPage();
+		System.out.println("===========KsEmployee list===========");
 		List<KsEmployee> list = ksEmployeeService.selectKsEmployeeList(ksEmployee);
 		return getDataTable(list);
 	}
@@ -77,6 +78,7 @@ public class KsEmployeeController extends BaseController {
 	@PreAuthorize("@ss.hasPermi('ks:employee:list')")
 	@GetMapping("/listUser")
 	public List<KsEmployee> listUser(KsEmployee ksEmployee) {
+		System.out.println("===========KsEmployee listUser===========");
 		List<KsEmployee> list = ksEmployeeService.selectKsEmployeeList(ksEmployee);
 		return list;
 	}
@@ -139,33 +141,47 @@ public class KsEmployeeController extends BaseController {
 		List<KsEmployee> list = ksEmployeeService.selectKsEmployeeList(vo);
 		for (KsEmployee employee : list) {
 			String name = employee.getName();
+
+			// 南下
 			KsDownbound ksDownbound = new KsDownbound();
 			ksDownbound.setDownboundDriver(name);
 			ksDownbound.setParams(vo.getParams());
 			List<KsDownbound> ksDownbounds = downboundService.selectKsDownboundList(ksDownbound);
 			employee.setDownboundCount(ksDownbounds.size());
-
+			// 北上
 			KsGonorth ksGonorth = new KsGonorth();
 			ksGonorth.setGonorthDriver(name);
 			ksGonorth.setParams(vo.getParams());
-
 			List<KsGonorth> ksGonorths = gonorthService.selectKsGonorthList(ksGonorth);
 			employee.setGonorthCount(ksGonorths.size());
-
+			// 加油
 			KsOilOrder ksOilOrder = new KsOilOrder();
 			ksOilOrder.setOilDriver(name);
 			ksOilOrder.setParams(vo.getParams());
-
 			List<KsOilOrder> ksOilOrders = oilOrderService.selectKsOilOrderList(ksOilOrder);
-			BigDecimal add = ksOilOrders.stream().map(KsOilOrder::getOilTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-			employee.setOliAmount(add);
-
-			BigDecimal add1 = ksDownbounds.stream().map(KsDownbound::getDownboundDriverPay).reduce(BigDecimal.ZERO,
+			BigDecimal addOilOrder = ksOilOrders.stream().map(KsOilOrder::getOilTotal).reduce(BigDecimal.ZERO,
 					BigDecimal::add);
-			BigDecimal add2 = ksGonorths.stream().map(KsGonorth::getGonorthDriverPay).reduce(BigDecimal.ZERO,
+			employee.setOliAmount(addOilOrder);
+
+			// 日常支出
+			KsExpense ksExpense = new KsExpense();
+			ksExpense.setExpenseDriver(name);
+			ksExpense.setParams(vo.getParams());
+			List<KsExpense> ksExpenses = expenseService.selectKsExpenseList(ksExpense);
+			BigDecimal addExpenses = ksExpenses.stream().map(KsExpense::getExpenseTotal).reduce(BigDecimal.ZERO,
 					BigDecimal::add);
-			employee.setSalary(add1.add(add2));
+			employee.setExpenseTotal(addExpenses);
+			employee.setExpenseCount(ksExpenses.size());
+
+			// BigDecimal add1 =
+			// ksDownbounds.stream().map(KsDownbound::getDownboundDriverPay).reduce(BigDecimal.ZERO,
+			// BigDecimal::add);
+			// BigDecimal add2 =
+			// ksGonorths.stream().map(KsGonorth::getGonorthDriverPay).reduce(BigDecimal.ZERO,
+			// BigDecimal::add);
+			// employee.setSalary(add1.add(add2));
+
+			// employee.setSalary(add1);
 		}
 		return getDataTable(list);
 	}
@@ -409,7 +425,7 @@ public class KsEmployeeController extends BaseController {
 
 		BigDecimal total1 = new BigDecimal("0");
 		for (KsDownbound downbound : downboundList) {
-			total1 = total1.add(downbound.getDownboundDriverPay());
+			// total1 = total1.add(downbound.getDownboundDriverPay());
 		}
 		// 跳过一行
 		// writer.passCurrentRow();
@@ -450,9 +466,9 @@ public class KsEmployeeController extends BaseController {
 		writer.write(gonorthList, true);
 
 		BigDecimal total2 = new BigDecimal("0");
-		for (KsGonorth gonorth : gonorthList) {
-			total2 = total2.add(gonorth.getGonorthDriverPay());
-		}
+//		for (KsGonorth gonorth : gonorthList) {
+//			total2 = total2.add(gonorth.getGonorthDriverPay());
+//		}
 		// 跳过一行
 		// writer.passCurrentRow();
 		List<String> row4 = CollUtil.newArrayList("", "", "", "", "", "", "", "", "", "", "", "");

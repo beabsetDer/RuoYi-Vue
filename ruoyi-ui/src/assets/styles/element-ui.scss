@@ -87,7 +87,12 @@
   display: none;
 }
 
-.el-scrollbar__wrap {
-  // 用于隐藏横向滚动条
-  overflow-x: hidden;
+.elTable .cell {
+  white-space: pre-wrap;
 }
+
+// 會導致下拉選項最後一個少一點點..
+//.el-scrollbar__wrap {
+// 用于隐藏横向滚动条
+//  overflow-x: hidden;
+//}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.kaisheng.mapper.KsPlaceMapper">
+
+	<resultMap type="KsPlace" id="KsPlaceResult">
+		<result property="id" column="id" />
+		<result property="placeId" column="place_id" />
+		<result property="placeName" column="place_name" />
+		<result property="placeType" column="place_type" />
+		<result property="placePrincipal" column="place_principal" />
+		<result property="placePrincipalTel"
+			column="place_principal_tel" />
+	</resultMap>
+
+	<sql id="selectKsPlaceVo">
+		select id, place_id, place_name, place_type,
+		place_principal,
+		place_principal_tel from ks_place
+	</sql>
+
+	<select id="selectKsPlaceList" parameterType="KsPlace"
+		resultMap="KsPlaceResult">
+		<include refid="selectKsPlaceVo" />
+		<where>
+			<if test="placeId != null  and placeId != ''"> and place_id = #{placeId}</if>
+			<if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+			<if test="placeType != null  and placeType != ''"> and place_type = #{placeType}</if>
+			<if test="placePrincipal != null  and placePrincipal != ''"> and place_principal like concat('%', #{placePrincipal},
+				'%')</if>
+			<if test="placePrincipalTel != null  and placePrincipalTel != ''"> and place_principal_tel like concat('%',
+				#{placePrincipalTel}, '%')</if>
+		</where>
+	</select>
+
+	<select id="selectKsPlaceNameByPlaceId" parameterType="String"
+		resultType="String">
+		select place_name from ks_place where place_id = #{placeId}
+	</select>
+
+	<select id="selectKsPlaceById" parameterType="Integer"
+		resultMap="KsPlaceResult">
+		<include refid="selectKsPlaceVo" />
+		where id = #{id}
+	</select>
+
+	<insert id="insertKsPlace" parameterType="KsPlace"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ks_place
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="placeId != null and placeId != ''">place_id,</if>
+			<if test="placeName != null">place_name,</if>
+			<if test="placeType != null and placeType != ''">place_type,</if>
+			<if test="placePrincipal != null">place_principal,</if>
+			<if test="placePrincipalTel != null">place_principal_tel,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="placeId != null and placeId != ''">#{placeId},</if>
+			<if test="placeName != null">#{placeName},</if>
+			<if test="placeType != null and placeType != ''">#{placeType},</if>
+			<if test="placePrincipal != null">#{placePrincipal},</if>
+			<if test="placePrincipalTel != null">#{placePrincipalTel},</if>
+		</trim>
+	</insert>
+
+	<update id="updateKsPlace" parameterType="KsPlace">
+		update ks_place
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="placeId != null and placeId != ''">place_id = #{placeId},</if>
+			<if test="placeName != null">place_name = #{placeName},</if>
+			<if test="placeType != null and placeType != ''">place_type = #{placeType},</if>
+			<if test="placePrincipal != null">place_principal = #{placePrincipal},</if>
+			<if test="placePrincipalTel != null">place_principal_tel = #{placePrincipalTel},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteKsPlaceById" parameterType="Integer">
+		delete from
+		ks_place where id = #{id}
+	</delete>
+
+	<delete id="deleteKsPlaceByIds" parameterType="String">
+		delete from ks_place where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

@@ -12,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 加油表單对象 ks_oil_order
  * 
  * @author Sheng
- * @date 2022-02-22
+ * @date 2022-04-03
  */
 public class KsOilOrder extends BaseEntity
 {
@@ -28,7 +28,7 @@ public class KsOilOrder extends BaseEntity
     /** 加油日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "加油日期", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date oidDate;
+    private Date oilDate;
 
     /** 機司名稱 */
     @Excel(name = "機司名稱")
@@ -49,6 +49,10 @@ public class KsOilOrder extends BaseEntity
     /** 加油公升 */
     @Excel(name = "加油公升")
     private BigDecimal oilLiters;
+
+    /** 價格折扣 */
+    @Excel(name = "價格折扣")
+    private BigDecimal oilDiscount;
 
     /** 油單總價格 */
     @Excel(name = "油單總價格")
@@ -76,14 +80,14 @@ public class KsOilOrder extends BaseEntity
     {
         return oilOrderId;
     }
-    public void setOidDate(Date oidDate) 
+    public void setOilDate(Date oilDate) 
     {
-        this.oidDate = oidDate;
+        this.oilDate = oilDate;
     }
 
-    public Date getOidDate() 
+    public Date getOilDate() 
     {
-        return oidDate;
+        return oilDate;
     }
     public void setOilDriver(String oilDriver) 
     {
@@ -130,6 +134,15 @@ public class KsOilOrder extends BaseEntity
     {
         return oilLiters;
     }
+    public void setOilDiscount(BigDecimal oilDiscount) 
+    {
+        this.oilDiscount = oilDiscount;
+    }
+
+    public BigDecimal getOilDiscount() 
+    {
+        return oilDiscount;
+    }
     public void setOilTotal(BigDecimal oilTotal) 
     {
         this.oilTotal = oilTotal;
@@ -154,12 +167,13 @@ public class KsOilOrder extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("oilOrderId", getOilOrderId())
-            .append("oidDate", getOidDate())
+            .append("oilDate", getOilDate())
             .append("oilDriver", getOilDriver())
             .append("oilLicensePlateNumber", getOilLicensePlateNumber())
             .append("oilType", getOilType())
             .append("oilPrice", getOilPrice())
             .append("oilLiters", getOilLiters())
+            .append("oilDiscount", getOilDiscount())
             .append("oilTotal", getOilTotal())
             .append("gasStation", getGasStation())
             .toString();

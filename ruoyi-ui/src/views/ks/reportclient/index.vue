@@ -5,20 +5,21 @@
       ref="queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="100px"
     >
-      <el-form-item label="員工姓名" prop="name">
+      <el-form-item label="廠商名稱" prop="clientId">
         <el-select
           clearable
-          v-model="queryParams.name"
-          placeholder="請選擇機司名稱"
-          style="small"
+          v-model="queryParams.clientId"
+          placeholder="請選擇公司名稱"
+          filterable
         >
           <el-option
-            v-for="item in userList"
-            :key="item.employeeId"
-            :value="item.name"
-            >{{ item.name }}</el-option
+            v-for="client in clientListQuery"
+            :key="client.clientId"
+            :value="client.clientId"
+            :label="client.clientId + ' ' + client.clientName"
+            >{{ client.clientId }} {{ client.clientName }}</el-option
           >
         </el-select>
       </el-form-item>
@@ -35,6 +36,42 @@
           end-placeholder="結束日期"
         ></el-date-picker>
       </el-form-item>
+
+      <el-form-item label="起點" prop="params.outset">
+        <el-select
+          clearable
+          v-model="queryParams.params.outset"
+          placeholder="請選擇起點"
+          style="width: 240px"
+          filterable
+        >
+          <el-option
+            v-for="p in placeList"
+            :key="p.placeId"
+            :value="p.placeId"
+            :label="p.placeId + ' ' + p.placeName"
+            >{{ p.placeId }} {{ p.placeName }}</el-option
+          >
+        </el-select>
+      </el-form-item>
+      <el-form-item label="堆場" prop="params.yard">
+        <el-select
+          clearable
+          v-model="queryParams.params.yard"
+          placeholder="請輸入堆場"
+          style="width: 240px"
+          filterable
+        >
+          <el-option
+            v-for="p in placeList"
+            :key="p.placeId"
+            :value="p.placeId"
+            :label="p.placeId + ' ' + p.placeName"
+            >{{ p.placeId }} {{ p.placeName }}</el-option
+          >
+        </el-select>
+      </el-form-item>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -56,63 +93,60 @@
       ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="list">
+    <el-table v-loading="loading" :data="clientList">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="員工編號" align="center" prop="employeeId" />
-      <el-table-column label="員工姓名" align="center" prop="name" />
+      <el-table-column label="廠商編號" align="center" prop="clientId" />
+      <el-table-column label="廠商名稱" align="center" prop="clientName" />
+      <!--
       <el-table-column label="北上單數" align="center" prop="gonorthCount" />
+      -->
       <el-table-column label="南下單數" align="center" prop="downboundCount" />
+
+      <!--
       <el-table-column label="日常開支" align="center" prop="expenseTotal" />
       <el-table-column label="總共油錢" align="center" prop="oliAmount" />
       <el-table-column label="薪資" align="center" prop="salary" />
+      -->
+      <!--
+      <el-table-column label="北上金額" align="center" prop="salary" />
+      -->
+      <el-table-column
+        label="請款金額(南下)"
+        align="center"
+        prop="downboundRevenue"
+      />
 
-      <el-table-column label="北上單" align="center" prop="name">
+      <!--
+      <el-table-column label="北上單" align="center" prop="clientId">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click="gonorth_table_show(scope.row.name)"
+            @click="gonorth_table_show(scope.row.clientId)"
             >查看</el-button
           >
         </template>
       </el-table-column>
-      <el-table-column label="南下單" align="center" prop="name">
+-->
+
+      <el-table-column label="南下單" align="center" prop="clientId">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click="downbound_table_show(scope.row.name)"
+            @click="downbound_table_show(scope.row.clientId)"
             >查看</el-button
           >
         </template>
       </el-table-column>
-      <el-table-column label="加油單" align="center" prop="name">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click="order_table_show(scope.row.name)"
-            >查看</el-button
-          >
-        </template>
-      </el-table-column>
-      <el-table-column label="日常開支" align="center" prop="name">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click="expense_table_show(scope.row.name)"
-            >查看</el-button
-          >
-        </template>
-      </el-table-column>
-      <el-table-column label="報表" align="center" prop="name">
+
+      <el-table-column label="報表" align="center" prop="clientId">
         <!-- Table -->
         <template slot-scope="scope">
           <el-button
             type="text"
             v-hasPermi="['ks:employee:emplistReport']"
-            @click="tttttttt(scope.row.employeeId)"
+            @click="tttttttt(scope.row.clientId, scope.row.clientName)"
             >查看(請設日期再開)</el-button
           >
         </template>
@@ -135,23 +169,23 @@
           -->
           <el-button
             type="success"
-            v-hasPermi="['ks:employee:exportExcel']"
-            @click="eeeeeeee(gridData[0].employeeId)"
+            v-hasPermi="['ks:client:exportExcel']"
+            @click="eeeeeeee(gridData[0].clientId, gridData[0].clientName)"
             >匯出Excel</el-button
           >
         </div>
         <el-scrollbar style="height: 700px; position: relative; top: 10px">
           <el-table :data="gridData" ref="alldataD" border>
-            <!-- 員工資料總攬位置 -->
-            <el-table-column label="員工資料總攬">
+            <!-- 廠商請款位置 -->
+            <el-table-column label="廠商請款總攬">
               <el-table :data="gridData" ref="alldataD">
+                <el-table-column label="編號" prop="clientId"></el-table-column>
                 <el-table-column
-                  label="編號"
-                  prop="employeeId"
+                  label="廠商名稱"
+                  prop="clientName"
                 ></el-table-column>
-                <el-table-column label="姓名" prop="name"></el-table-column>
                 <el-table-column
-                  label="南下次數"
+                  label="請款筆數(南下)"
                   prop="downboundCount"
                 ></el-table-column>
 
@@ -161,12 +195,12 @@
                   prop="downboundRevenue"
                 ></el-table-column>
                 -->
-
+                <!--
                 <el-table-column
                   label="北上次數"
                   prop="gonorthCount"
                 ></el-table-column>
-
+                -->
                 <!--
                 <el-table-column
                   label="北上營業額"
@@ -175,36 +209,8 @@
                 -->
 
                 <el-table-column
-                  label="營業額-(南下+北上)"
-                  prop="revenueTotal"
-                  :render-header="renderheader"
-                ></el-table-column>
-                <el-table-column
-                  label="日常支出次數-(土尾/發泡/洗車)"
-                  prop="expenseCount"
-                  :render-header="renderheader"
-                ></el-table-column>
-                <el-table-column
-                  label="日常支出總額-(土尾/發泡/洗車)"
-                  prop="expenseTotal"
-                  :render-header="renderheader"
-                ></el-table-column>
-                <el-table-column
-                  label="加油次數"
-                  prop="oliCount"
-                ></el-table-column>
-                <el-table-column
-                  label="油錢總額"
-                  prop="oliAmount"
-                ></el-table-column>
-                <el-table-column
-                  label="營業額-(扣除日常支出)"
-                  prop="driverRevenue"
-                  :render-header="renderheader"
-                ></el-table-column>
-                <el-table-column
-                  label="薪水-(司機抽2.3成)"
-                  prop="salary"
+                  label="請款金額(南下)"
+                  prop="downboundRevenue"
                   :render-header="renderheader"
                 ></el-table-column>
               </el-table>
@@ -213,18 +219,21 @@
           <!-- 分隔-->
           <p></p>
           <el-table :data="gridData" ref="alldataD" border>
-            <el-table-column label="南北車趟詳細資料">
+            <el-table-column label="南下請款資料">
               <!-- scope -->
               <template slot-scope="scope">
                 <el-table
                   :data="scope.row.downboundList"
                   ref="alldataD"
-                  height="300"
+                  height="450"
                 >
+                  <!--
                   <el-table-column
                     label="南下單編號"
                     prop="downboundId"
                   ></el-table-column>
+                -->
+
                   <el-table-column
                     label="日期"
                     prop="downboundDate"
@@ -234,13 +243,25 @@
                     prop="downboundLicensePlateNumber"
                   ></el-table-column>
                   <el-table-column
+                    label="請款單"
+                    prop="downboundSoftOrderNumber"
+                  ></el-table-column>
+
+                  <el-table-column
+                    label="聯單"
+                    prop="downboundCouponNumber"
+                  ></el-table-column>
+                  <!--
+                  <el-table-column
                     label="姓名"
                     prop="downboundDriver"
                   ></el-table-column>
+
                   <el-table-column
                     label="公司"
                     prop="downboundCompany"
                   ></el-table-column>
+                  -->
                   <el-table-column
                     label="起點"
                     prop="downboundOutset"
@@ -249,18 +270,23 @@
                     label="堆場"
                     prop="downboundYard"
                   ></el-table-column>
+
+                  <!--
                   <el-table-column
                     label="現金"
                     prop="downboundCash"
                   ></el-table-column>
+-->
+
                   <el-table-column
                     label="貨物"
                     prop="downboundGoods"
                   ></el-table-column>
                   <el-table-column
-                    label="噸數"
+                    label="司機噸數"
                     prop="downboundGoodsMt"
                   ></el-table-column>
+
                   <el-table-column
                     label="貨物單價"
                     prop="downboundGoodsPrice"
@@ -272,102 +298,6 @@
                 </el-table>
                 <!-- 分隔-->
                 <p></p>
-                <!-- 分隔end-->
-                <el-table
-                  :data="scope.row.gonorthList"
-                  ref="alldataD"
-                  height="300"
-                >
-                  <el-table-column
-                    label="北上單編號"
-                    prop="gonorthId"
-                  ></el-table-column>
-                  <el-table-column
-                    label="日期"
-                    prop="gonorthDate"
-                  ></el-table-column>
-                  <el-table-column
-                    label="車牌"
-                    prop="gonorthLicensePlateNumber"
-                  ></el-table-column>
-                  <el-table-column
-                    label="姓名"
-                    prop="gonorthDriver"
-                  ></el-table-column>
-                  <el-table-column
-                    label="公司"
-                    prop="gonorthCompany"
-                  ></el-table-column>
-                  <el-table-column
-                    label="起點"
-                    prop="gonorthOutset"
-                  ></el-table-column>
-                  <el-table-column
-                    label="堆場"
-                    prop="gonorthYard"
-                  ></el-table-column>
-                  <el-table-column
-                    label="現金"
-                    prop="gonorthCash"
-                  ></el-table-column>
-                  <el-table-column
-                    label="貨物"
-                    prop="gonorthGoods"
-                  ></el-table-column>
-                  <el-table-column
-                    label="噸數"
-                    prop="gonorthGoodsMt"
-                  ></el-table-column>
-                  <el-table-column
-                    label="貨物單價"
-                    prop="gonorthGoodsPriceDriver"
-                  ></el-table-column>
-                  <el-table-column
-                    label="此趟運費"
-                    prop="gonorthBillTotal"
-                  ></el-table-column>
-                </el-table>
-                <!-- 分隔-->
-                <p></p>
-                <!-- 分隔end-->
-                <el-table
-                  :data="scope.row.expenseList"
-                  ref="alldataD"
-                  height="300"
-                >
-                  <el-table-column
-                    label="日常維護編號"
-                    prop="expenseId"
-                  ></el-table-column>
-                  <el-table-column
-                    label="車牌"
-                    prop="expenseLicensePlateNumber"
-                  ></el-table-column>
-                  <el-table-column
-                    label="機司"
-                    prop="expenseDriver"
-                  ></el-table-column>
-                  <el-table-column
-                    label="土尾"
-                    prop="expense1"
-                  ></el-table-column>
-                  <el-table-column
-                    label="發泡"
-                    prop="expense2"
-                  ></el-table-column>
-                  <el-table-column
-                    label="洗車"
-                    prop="expense3"
-                  ></el-table-column>
-                  <el-table-column
-                    label="其他雜項"
-                    prop="expenseOther"
-                  ></el-table-column>
-                  <el-table-column
-                    label="日常開支總額"
-                    prop="expenseTotal"
-                  ></el-table-column>
-                </el-table>
               </template>
             </el-table-column>
           </el-table>
@@ -416,17 +346,19 @@
 </template>
 
 <script>
-import { listReport, emplistReport } from "@/api/ks/report";
+import { listReportClient, clientlistReport } from "@/api/ks/reportclient";
 import { listUser } from "@/api/ks/employee";
 import gonorthDialog from "../gonorth/index";
 import downboundDialog from "../downbound/index";
 import expenseDialog from "../expense/index";
 import orderDialog from "../order/index";
+import { listPlaceForSelector } from "@/api/ks/place";
+import { listClientForSelector } from "@/api/ks/client";
 // 打印組件
 import printJS from "print-js";
 
 export default {
-  name: "Employee",
+  name: "Client",
   components: {
     gonorthDialog,
     downboundDialog,
@@ -455,8 +387,11 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 員工表單表格数据
-      list: [],
+      // 廠商請款數據
+      clientList: [],
+      // 下拉
+      clientListQuery: [],
+      placeList: [],
       // 弹出层标题
       title: "",
       userList: [],
@@ -467,7 +402,11 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
+        clientId: null,
+        params: {
+          outset: null,
+          yard: null,
+        },
       },
 
       gridData: [],
@@ -477,35 +416,11 @@ export default {
   created() {
     this.getList();
     this.getUser();
+    this.getPlaceList();
+    this.getClientList();
   },
 
   methods: {
-    // 打印
-    // goPrint() {
-    //   console.log("打印");
-    //   printJS({
-    //     printable: this.gridData,
-    //     type: "json",
-    //     properties: [
-    //       { field: "name", displayName: "姓名", columnSize: `10%` },
-    //       { field: "employeeId", displayName: "編號", columnSize: `10%` },
-    //       {
-    //         field: "gonorthList",
-    //         displayName: "北上車趟",
-    //         columnSize: `50%`
-    //       }
-    //     ],
-
-    //     // header: `<p class="custom-p"> 名单 </p>`,
-    //     // style: '#printCons {width: 600px;} .no-print{width: 0px} .itemText1 { width: 200px } .itemText2 { width: 200px } .itemText3 { width: 200px } .itemText4 { width: 200px }',
-    //     // gridHeaderStyle:'font-size:12px; padding:3px; border:1px solid; font-weight: 100; text-align:left;',
-    //     // gridStyle:'font-size:12px; padding:3px; border:1px solid; text-align:left;',
-    //     // repeatTableHeader: true,
-    //     // scanStyles:true,
-    //     targetStyles: ["*"],
-    //     ignoreElements: ["no-print", "bc", "gb"]
-    //   });
-    // },
     // 換行用的
     renderheader(h, { column, $index }) {
       return h("span", {}, [
@@ -515,24 +430,27 @@ export default {
       ]);
     },
 
-    tttttttt(employeeId) {
+    tttttttt(clientId, clientName) {
       this.dialog.allData = true;
-      const id = employeeId;
+      const id = clientId;
       // console.info(this.queryParams);
 
       if (this.dateRange.length != 0) {
         this.title =
-          "薪資表單：" +
-          employeeId +
-          " 時間範圍：" +
+          "客戶廠商：" +
+          clientName +
+          "(" +
+          clientId +
+          ") 時間範圍：" +
           this.dateRange[0] +
           " ～ " +
           this.dateRange[1];
       } else {
-        this.title = "薪資表單：" + employeeId + " 時間範圍：歷史全部";
+        this.title =
+          "客戶廠商：" + clientName + "(" + clientId + ") 時間範圍：歷史全部";
       }
 
-      emplistReport(
+      clientlistReport(
         this.addDateRange(this.queryParams, this.dateRange),
         id
       ).then((response) => {
@@ -551,113 +469,112 @@ export default {
     // },
 
     // 匯出 excel
-    eeeeeeee(employeeId) {
-      const id = employeeId;
+    eeeeeeee(clientId, clientName) {
       console.info(this.queryParams);
 
       let excelTitle = "";
       if (this.dateRange.length != 0) {
         excelTitle =
-          employeeId +
+          "客戶廠商：" +
+          clientName +
+          "(" +
+          clientId +
           " 時間範圍：" +
           this.dateRange[0] +
           " ～ " +
           this.dateRange[1];
       } else {
-        excelTitle = employeeId + " 時間範圍：歷史全部";
+        excelTitle =
+          "客戶廠商：" + clientName + "(" + clientId + ") 時間範圍：歷史全部";
       }
 
       this.download(
-        "ks/employee/exportExcel/" + id,
+        "ks/client/exportExcel/" + clientId,
         {
           ...this.queryParams,
         },
-        `員工薪資：${excelTitle}.xls`
+        `請款：${excelTitle}.xls`
       );
     },
 
-    gonorth_table_show(name) {
+    getClientList() {
+      listClientForSelector().then((response) => {
+        console.info(response);
+        this.clientListQuery = response;
+      });
+    },
+
+    gonorth_table_show(clientId) {
       this.dialog.gonorth = true;
       var that = this;
 
       this.$nextTick(() => {
         this.$refs.gonorthD.showSearch = false;
-        this.$refs.gonorthD.queryParams.gonorthDriver = name;
+        this.$refs.gonorthD.queryParams.gonorthCompany = clientId;
         this.$refs.gonorthD.dateRange = this.dateRange;
         setTimeout(function () {
           that.$refs.gonorthD.getList();
         }, 300);
       });
     },
-    downbound_table_show(name) {
+    // 南下
+    downbound_table_show(clientId) {
       this.dialog.downbound = true;
       var that = this;
       this.$nextTick(() => {
         this.$refs.downboundD.showSearch = false;
-        this.$refs.downboundD.queryParams.downboundDriver = name;
+        this.$refs.downboundD.queryParams.downboundCompany = clientId;
+        // 地點
+        this.$refs.downboundD.queryParams.downboundOutset =
+          this.queryParams.params.outset;
+        this.$refs.downboundD.queryParams.downboundYard =
+          this.queryParams.params.yard;
+
         this.$refs.downboundD.dateRange = this.dateRange;
         setTimeout(function () {
           that.$refs.downboundD.getList();
         }, 300);
       });
     },
-    expense_table_show(name) {
-      this.dialog.expense = true;
-      var that = this;
 
-      this.$nextTick(() => {
-        this.$refs.expenseD.showSearch = false;
-        this.$refs.expenseD.queryParams.expenseDriver = name;
-        this.$refs.expenseD.dateRange = this.dateRange;
-        setTimeout(function () {
-          that.$refs.expenseD.getList();
-        }, 300);
-      });
-    },
-    order_table_show(name) {
-      this.dialog.order = true;
-      var that = this;
-      this.$nextTick(() => {
-        this.$refs.orderD.showSearch = false;
-        this.$refs.orderD.queryParams.oilDriver = name;
-        this.$refs.orderD.dateRange = this.dateRange;
-        setTimeout(function () {
-          that.$refs.orderD.getList();
-        }, 300);
-      });
-    },
     getUser() {
       listUser().then((response) => {
         console.info(response);
         this.userList = response;
       });
     },
-    /** 查询員工表單列表 */
+    /** 查询廠商列表 */
     getList() {
       this.loading = true;
-      listReport(this.addDateRange(this.queryParams, this.dateRange)).then(
-        (response) => {
-          this.list = response.rows;
-          this.total = response.total;
-          this.loading = false;
-        }
-      );
+      console.log("this.queryParams", this.queryParams);
+      listReportClient(
+        this.addDateRange(this.queryParams, this.dateRange)
+      ).then((response) => {
+        this.clientList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
 
-    getAllData(name) {
+    getAllData(clientId) {
       this.dialog.allData = true;
       this.loading = true;
-      listReport(this.addDateRange(this.queryParams, this.dateRange)).then(
-        (response) => {
-          // this.gridData = response;
-          this.gridData = response.rows;
-          this.total = response.total;
-          this.loading = false;
-          console.log(this.list);
-        }
-      );
+      listReportClient(
+        this.addDateRange(this.queryParams, this.dateRange)
+      ).then((response) => {
+        // this.gridData = response;
+        this.gridData = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
 
+    getPlaceList() {
+      listPlaceForSelector().then((response) => {
+        console.info("placeList", response);
+        this.placeList = response;
+      });
+    },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -675,7 +592,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.dateRange = [];
-      // this.queryParams.name = null;
+      //  this.queryParams.params = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

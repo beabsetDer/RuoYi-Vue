@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="120px">
       <el-form-item label="客戶公司編號" prop="clientId">
         <el-input
           v-model="queryParams.clientId"
@@ -156,7 +156,7 @@
 
     <!-- 添加或修改客戶公司表單对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="客戶公司編號" prop="clientId">
           <el-input v-model="form.clientId" placeholder="请输入客戶公司編號" />
         </el-form-item>

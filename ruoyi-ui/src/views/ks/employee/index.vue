@@ -5,12 +5,12 @@
       ref="queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="120px"
     >
       <el-form-item label="員工編號" prop="employeeId">
         <el-input
           v-model="queryParams.employeeId"
-          placeholder="请输入員工編號"
+          placeholder="請輸入員工編號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -19,7 +19,7 @@
       <el-form-item label="員工姓名" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入員工姓名"
+          placeholder="請輸入員工姓名"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -28,7 +28,7 @@
       <el-form-item label="綽號" prop="aka">
         <el-input
           v-model="queryParams.aka"
-          placeholder="请输入綽號"
+          placeholder="請輸入綽號"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -37,7 +37,7 @@
       <el-form-item label="手機" prop="phoneNumber">
         <el-input
           v-model="queryParams.phoneNumber"
-          placeholder="请输入手機"
+          placeholder="請輸入手機"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -46,14 +46,19 @@
       <el-form-item label="身分證" prop="idCard">
         <el-input
           v-model="queryParams.idCard"
-          placeholder="请输入身分證"
+          placeholder="請輸入身分證"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="姓別" prop="sex">
-        <el-select v-model="queryParams.sex" placeholder="请选择姓別" clearable size="small">
+        <el-select
+          v-model="queryParams.sex"
+          placeholder="請選擇姓別"
+          clearable
+          size="small"
+        >
           <el-option
             v-for="dict in dict.type.sys_user_sex"
             :key="dict.value"
@@ -65,7 +70,7 @@
       <el-form-item label="家電" prop="homeTelephoneNumber">
         <el-input
           v-model="queryParams.homeTelephoneNumber"
-          placeholder="请输入家電"
+          placeholder="請輸入家電"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -74,7 +79,7 @@
       <el-form-item label="住址" prop="address">
         <el-input
           v-model="queryParams.address"
-          placeholder="请输入住址"
+          placeholder="請輸入住址"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -83,7 +88,7 @@
       <el-form-item label="隸屬公司" prop="company">
         <el-input
           v-model="queryParams.company"
-          placeholder="请输入隸屬公司"
+          placeholder="請輸入隸屬公司"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -92,7 +97,7 @@
       <el-form-item label="職稱" prop="staffPositions">
         <el-input
           v-model="queryParams.staffPositions"
-          placeholder="请输入職稱"
+          placeholder="請輸入職稱"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -105,7 +110,7 @@
           v-model="queryParams.entryDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择入職日期"
+          placeholder="選擇入職日期"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="離職日期" prop="resignationDate">
@@ -115,21 +120,29 @@
           v-model="queryParams.resignationDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="选择離職日期"
+          placeholder="選擇離職日期"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="離職原因" prop="reasonForLeaving">
         <el-input
           v-model="queryParams.reasonForLeaving"
-          placeholder="请输入離職原因"
+          placeholder="請輸入離職原因"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -142,7 +155,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['ks:employee:add']"
-        >新增</el-button>
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -153,7 +167,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['ks:employee:edit']"
-        >修改</el-button>
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -164,22 +179,30 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['ks:employee:remove']"
-        >删除</el-button>
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
           type="success"
-          
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['ks:employee:export']"
-        >匯出Excel</el-button>
+          >匯出Excel</el-button
+        >
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="employeeList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="employeeList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="流水號" align="center" prop="id" />
       <el-table-column label="員工編號" align="center" prop="employeeId" />
@@ -187,8 +210,18 @@
       <el-table-column label="員工姓名" align="center" prop="name" />
 
       <el-table-column label="綽號" align="center" prop="aka" />
-      <el-table-column label="手機" align="center" prop="phoneNumber" width="110" />
-      <el-table-column label="身分證" align="center" prop="idCard" width="110" />
+      <el-table-column
+        label="手機"
+        align="center"
+        prop="phoneNumber"
+        width="110"
+      />
+      <el-table-column
+        label="身分證"
+        align="center"
+        prop="idCard"
+        width="110"
+      />
 
       <el-table-column label="姓別" align="center" prop="sex">
         <template slot-scope="scope">
@@ -196,22 +229,50 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="家電" align="center" prop="homeTelephoneNumber" width="110" />
+      <el-table-column
+        label="家電"
+        align="center"
+        prop="homeTelephoneNumber"
+        width="110"
+      />
       <el-table-column label="住址" align="center" prop="address" width="200" />
-      <el-table-column label="隸屬公司" align="center" prop="company" width="150" />
+      <el-table-column
+        label="隸屬公司"
+        align="center"
+        prop="company"
+        width="150"
+      />
       <el-table-column label="職稱" align="center" prop="staffPositions" />
-      <el-table-column label="入職日期" align="center" prop="entryDate" width="100">
+      <el-table-column
+        label="入職日期"
+        align="center"
+        prop="entryDate"
+        width="100"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.entryDate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.entryDate, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="離職日期" align="center" prop="resignationDate" width="100">
+      <el-table-column
+        label="離職日期"
+        align="center"
+        prop="resignationDate"
+        width="100"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.resignationDate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.resignationDate, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="離職原因" align="center" prop="reasonForLeaving" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="離職原因"
+        align="center"
+        prop="reasonForLeaving"
+      />
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -219,20 +280,22 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['ks:employee:edit']"
-          >修改</el-button>
+            >修改</el-button
+          >
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['ks:employee:remove']"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
 
     <pagination
-      v-show="total>0"
+      v-show="total > 0"
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
@@ -240,25 +303,25 @@
     />
 
     <!-- 添加或修改員工表單对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="員工編號" prop="employeeId">
-          <el-input v-model="form.employeeId" placeholder="请输入員工編號" />
+          <el-input v-model="form.employeeId" placeholder="請輸入員工編號" />
         </el-form-item>
         <el-form-item label="員工姓名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入員工姓名" />
+          <el-input v-model="form.name" placeholder="請輸入員工姓名" />
         </el-form-item>
         <el-form-item label="綽號" prop="aka">
-          <el-input v-model="form.aka" placeholder="请输入綽號" />
+          <el-input v-model="form.aka" placeholder="請輸入綽號" />
         </el-form-item>
         <el-form-item label="手機" prop="phoneNumber">
-          <el-input v-model="form.phoneNumber" placeholder="请输入手機" />
+          <el-input v-model="form.phoneNumber" placeholder="請輸入手機" />
         </el-form-item>
         <el-form-item label="身分證" prop="idCard">
-          <el-input v-model="form.idCard" placeholder="请输入身分證" />
+          <el-input v-model="form.idCard" placeholder="請輸入身分證" />
         </el-form-item>
         <el-form-item label="姓別" prop="sex">
-          <el-select v-model="form.sex" placeholder="请选择姓別">
+          <el-select v-model="form.sex" placeholder="請選擇姓別">
             <el-option
               v-for="dict in dict.type.sys_user_sex"
               :key="dict.value"
@@ -268,16 +331,19 @@
           </el-select>
         </el-form-item>
         <el-form-item label="家電" prop="homeTelephoneNumber">
-          <el-input v-model="form.homeTelephoneNumber" placeholder="请输入家電" />
+          <el-input
+            v-model="form.homeTelephoneNumber"
+            placeholder="請輸入家電"
+          />
         </el-form-item>
         <el-form-item label="住址" prop="address">
-          <el-input v-model="form.address" placeholder="请输入住址" />
+          <el-input v-model="form.address" placeholder="請輸入住址" />
         </el-form-item>
         <el-form-item label="隸屬公司" prop="company">
-          <el-input v-model="form.company" placeholder="请输入隸屬公司" />
+          <el-input v-model="form.company" placeholder="請輸入隸屬公司" />
         </el-form-item>
         <el-form-item label="職稱" prop="staffPositions">
-          <el-input v-model="form.staffPositions" placeholder="请输入職稱" />
+          <el-input v-model="form.staffPositions" placeholder="請輸入職稱" />
         </el-form-item>
         <el-form-item label="入職日期" prop="entryDate">
           <el-date-picker
@@ -286,7 +352,7 @@
             v-model="form.entryDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择入職日期"
+            placeholder="選擇入職日期"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="離職日期" prop="resignationDate">
@@ -296,11 +362,14 @@
             v-model="form.resignationDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="选择離職日期"
+            placeholder="選擇離職日期"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="離職原因" prop="reasonForLeaving">
-          <el-input v-model="form.reasonForLeaving" placeholder="请输入離職原因" />
+          <el-input
+            v-model="form.reasonForLeaving"
+            placeholder="請輸入離職原因"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -317,7 +386,7 @@ import {
   getEmployee,
   delEmployee,
   addEmployee,
-  updateEmployee
+  updateEmployee,
 } from "@/api/ks/employee";
 
 export default {
@@ -359,16 +428,16 @@ export default {
         staffPositions: null,
         entryDate: null,
         resignationDate: null,
-        reasonForLeaving: null
+        reasonForLeaving: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         employeeId: [
-          { required: true, message: "員工編號不能为空", trigger: "blur" }
-        ]
-      }
+          { required: true, message: "員工編號不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   created() {
@@ -378,7 +447,7 @@ export default {
     /** 查询員工表單列表 */
     getList() {
       this.loading = true;
-      listEmployee(this.queryParams).then(response => {
+      listEmployee(this.queryParams).then((response) => {
         this.employeeList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -405,7 +474,7 @@ export default {
         staffPositions: null,
         entryDate: null,
         resignationDate: null,
-        reasonForLeaving: null
+        reasonForLeaving: null,
       };
       this.resetForm("form");
     },
@@ -421,7 +490,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id);
+      this.ids = selection.map((item) => item.id);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
@@ -435,7 +504,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
-      getEmployee(id).then(response => {
+      getEmployee(id).then((response) => {
         this.form = response.data;
         this.open = true;
         this.title = "修改員工表單";
@@ -443,16 +512,16 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.id != null) {
-            updateEmployee(this.form).then(response => {
+            updateEmployee(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addEmployee(this.form).then(response => {
+            addEmployee(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -466,7 +535,7 @@ export default {
       const ids = row.id || this.ids;
       this.$modal
         .confirm('是否确认删除員工表單编号为"' + ids + '"的数据项？')
-        .then(function() {
+        .then(function () {
           return delEmployee(ids);
         })
         .then(() => {
@@ -480,11 +549,11 @@ export default {
       this.download(
         "ks/employee/export",
         {
-          ...this.queryParams
+          ...this.queryParams,
         },
         `employee_${new Date().getTime()}.xlsx`
       );
-    }
-  }
+    },
+  },
 };
 </script>
